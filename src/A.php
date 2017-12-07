@@ -7,7 +7,7 @@
 
     namespace xobotyi;
 
-    class Arr
+    class A
     {
         /**
          * Apply $callback to each $array's element and returns true if ALL returns TRUE.
@@ -66,7 +66,7 @@
         public static function has(array $array, ...$values) :bool
         {
             if (!$values) {
-                throw new \ArgumentCountError('Too few arguments to function xobotyi\Arr::has(), 1 passed, at least 2 expected');
+                throw new \ArgumentCountError('Too few arguments to function xobotyi\A::has(), 1 passed, at least 2 expected');
             }
 
             if (!$array) {
@@ -97,7 +97,7 @@
         public static function hasAny(array $array, ...$values) :bool
         {
             if (!$values) {
-                throw new \ArgumentCountError('Too few arguments to function xobotyi\Arr::hasAny(), 1 passed, at least 2 expected');
+                throw new \ArgumentCountError('Too few arguments to function xobotyi\A::hasAny(), 1 passed, at least 2 expected');
             }
 
             if (!$array) {
@@ -127,7 +127,7 @@
         public static function hasKey(array $array, string ...$paths) :bool
         {
             if (!$paths) {
-                throw new \ArgumentCountError('Too few arguments to function xobotyi\Arr::hasKey(), 1 passed, at least 2 expected');
+                throw new \ArgumentCountError('Too few arguments to function xobotyi\A::hasKey(), 1 passed, at least 2 expected');
             }
 
             if (!$array) {
@@ -176,7 +176,7 @@
         public static function hasAnyKey(array $array, string ...$paths) :bool
         {
             if (!$paths) {
-                throw new \ArgumentCountError('Too few arguments to function xobotyi\Arr::hasAnyKey(), 1 passed, at least 2 expected');
+                throw new \ArgumentCountError('Too few arguments to function xobotyi\A::hasAnyKey(), 1 passed, at least 2 expected');
             }
 
             if (!$array) {
@@ -260,7 +260,7 @@
         public static function delete(array $array, string ...$paths) :array
         {
             if (!$paths) {
-                throw new \ArgumentCountError('Too few arguments to function xobotyi\Arr::delete(), 1 passed, at least 2 expected');
+                throw new \ArgumentCountError('Too few arguments to function xobotyi\A::delete(), 1 passed, at least 2 expected');
             }
 
             if ($array) {
@@ -306,12 +306,12 @@
         public static function set(array $array, ...$args) :array
         {
             if (!$args) {
-                throw new \ArgumentCountError('Too few arguments to function xobotyi\Arr::set(), 1 passed, at least 2 expected');
+                throw new \ArgumentCountError('Too few arguments to function xobotyi\A::set(), 1 passed, at least 2 expected');
             }
 
             if (is_string($args[0]) || is_numeric($args[0])) {
                 if (!isset($args[1]) && !\array_key_exists(1, $args)) {
-                    throw new \ArgumentCountError('Too few arguments to function xobotyi\Arr::set(), 2 passed, at least 3 expected when second is string');
+                    throw new \ArgumentCountError('Too few arguments to function xobotyi\A::set(), 2 passed, at least 3 expected when second is string');
                 }
 
                 $args = [$args[0] => $args[1]];
@@ -320,7 +320,7 @@
                 $args = $args[0];
             }
             else {
-                throw new \TypeError("Argument 2 passed to xobotyi\Arr::set() must be of the type array or string, " . gettype($args[0]) . " given");
+                throw new \TypeError("Argument 2 passed to xobotyi\A::set() must be of the type array or string, " . gettype($args[0]) . " given");
             }
 
             foreach ($args as $path => &$value) {
@@ -395,7 +395,7 @@
         public static function append(array $array, ...$values) :array
         {
             if (!$values) {
-                throw new \ArgumentCountError('Too few arguments to function xobotyi\Arr::append(), 1 passed, at least 2 expected');
+                throw new \ArgumentCountError('Too few arguments to function xobotyi\A::append(), 1 passed, at least 2 expected');
             }
 
             return \array_merge($array, $values);
@@ -406,7 +406,7 @@
          * Note, that values will prepend individually, so every $value
          * element will be prepended to the very beginning of an $array.
          *
-         * Arr::prepend([1], 2, 3); // returns [3, 2, 1]
+         * A::prepend([1], 2, 3); // returns [3, 2, 1]
          *
          * @param array   $array
          * @param mixed[] ...$values
@@ -417,7 +417,7 @@
         public static function prepend(array $array, ...$values) :array
         {
             if (!$values) {
-                throw new \ArgumentCountError('Too few arguments to function xobotyi\Arr::prepend(), 1 passed, at least 2 expected');
+                throw new \ArgumentCountError('Too few arguments to function xobotyi\A::prepend(), 1 passed, at least 2 expected');
             }
 
             \array_unshift($array, ...array_reverse($values));
