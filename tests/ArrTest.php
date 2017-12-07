@@ -32,6 +32,8 @@
 
         public function testHas() :void
         {
+            $this->assertFalse(Arr::has([], 0));
+
             $array = [1 => false, 'foo' => null, 'bar' => ['baz']];
 
             $this->assertTrue(Arr::has($array, false));
@@ -42,6 +44,8 @@
 
         public function testHasAny() :void
         {
+            $this->assertFalse(Arr::hasAny([], 0));
+
             $array = [1 => false, 'foo' => null, 'bar' => ['baz']];
 
             $this->assertTrue(Arr::hasAny($array, false));
@@ -52,8 +56,11 @@
 
         public function testHasKey() :void
         {
+            $this->assertFalse(Arr::hasKey([], 0));
+
             $array = [0 => 0, 'a' => 1, 2 => 1, 'b' => ['c' => ['d' => 1]], 'b.c\\.d' => 'qwe'];
 
+            $this->assertTrue(Arr::hasKey($array, ''));
             $this->assertTrue(Arr::hasKey($array, 0));
             $this->assertTrue(Arr::hasKey($array, 2));
             $this->assertFalse(Arr::hasKey($array, 3));
@@ -70,8 +77,11 @@
 
         public function testHasAnyKey() :void
         {
+            $this->assertFalse(Arr::hasAnyKey([], 0));
+
             $array = [0 => 0, 'a' => 1, 2 => 1, 'b' => ['c' => ['d' => 1]], 'b.c\\.d' => 'qwe'];
 
+            $this->assertFalse(Arr::hasAnyKey($array, ''));
             $this->assertTrue(Arr::hasAnyKey($array, 0));
             $this->assertTrue(Arr::hasAnyKey($array, 2));
             $this->assertFalse(Arr::hasAnyKey($array, 3));
@@ -88,6 +98,8 @@
 
         public function testGet() :void
         {
+            $this->assertEquals('default', Arr::get([], '1.2.3', 'default'));
+
             $array = [
                 0             => 'foo',
                 'qux'         => 'baz',
@@ -160,6 +172,8 @@
         {
             $array = [];
 
+            $this->assertEquals([],
+                                Arr::set($array, '', 'bar'));
             $this->assertEquals(['foo' => 'bar'],
                                 Arr::set($array, 'foo', 'bar'));
             $this->assertEquals(['foo' => ['bar' => 'baz']],
@@ -172,6 +186,8 @@
 
         public function testIsAssoc() :void
         {
+            $this->assertFalse(Arr::isAssoc([]));
+
             $array = [1, 2, 3, 4, 5, 'some', 'stuff'];
             $this->assertFalse(Arr::isAssoc($array));
 
