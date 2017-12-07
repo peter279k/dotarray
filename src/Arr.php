@@ -53,12 +53,12 @@
 
         /**
          * Checks if $array contains ALL of $value
-         *         *
+         *
          * IMPORTANT!
          * This function uses strict comparison
          *
-         * @param array $array
-         * @param array ...$values
+         * @param array   $array
+         * @param mixed[] ...$values
          *
          * @return bool
          * @throws \ArgumentCountError
@@ -88,8 +88,8 @@
          * IMPORTANT!
          * This function uses strict comparison
          *
-         * @param array $array
-         * @param array ...$values
+         * @param array   $array
+         * @param mixed[] ...$values
          *
          * @return bool
          * @throws \ArgumentCountError
@@ -217,9 +217,9 @@
          *
          * @param array       $array
          * @param string|null $path
-         * @param null        $default
+         * @param mixed       $default
          *
-         * @return array|mixed|null
+         * @return mixed
          */
         public static function get(array $array, ?string $path = null, $default = null)
         {
