@@ -88,6 +88,8 @@
         {
             $method = $this->getPrivateMethod(A::class, 'splitPath');
 
+            $this->assertEquals([], $method->invoke(null, ''));
+            $this->assertEquals([], $method->invoke(null, '...'));
             $this->assertEquals(['a', 'b', 'c'], $method->invoke(null, 'a.b.c'));
             $this->assertEquals(['a', 'b', 'c'], $method->invoke(null, 'a.b..c'));
             $this->assertEquals(['a\\', 'b', 'c'], $method->invoke(null, 'a\\\\.b.c'));
@@ -176,7 +178,8 @@
                 ],
             ];
 
-            $this->assertEquals($array, A::get($array, ''));
+            $this->assertEquals($array, A::get($array, null));
+            $this->assertEquals('default', A::get($array, '', 'default'));
             $this->assertEquals('qwe',
                                 A::get($array, 'bar.bat'));
             $this->assertEquals(4,

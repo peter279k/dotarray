@@ -122,14 +122,21 @@
          * @param string $path
          *
          * @return array
-         * @throws \Error
          */
         private static function splitPath(string $path) :array
         {
+            if ($path === '') {
+                return [];
+            }
+
             $segments = preg_split('~\\\\.(*SKIP)(*F)|\.~s', $path, -1, PREG_SPLIT_NO_EMPTY);
 
-            if ($segments === false) {
-                throw new \Error('Unable to split path to segments');
+            if (empty($segments)) {
+                if ($segments === false) {
+                    trigger_error('Path splitting failed, received path: ' . $path);
+                }
+
+                return [];
             }
 
             foreach ($segments as &$segment) {
@@ -149,7 +156,6 @@
          *
          * @return bool
          * @throws \ArgumentCountError
-         * @throws \Error
          */
         public static function hasKey(array $array, string ...$paths) :bool
         {
@@ -162,11 +168,11 @@
             }
 
             foreach ($paths as &$path) {
-                if ($path === '') {
+                $path = self::splitPath($path);
+                if (empty($path)) {
                     continue;
                 }
 
-                $path  = self::splitPath($path);
                 $scope = &$array;
                 $i     = 0;
 
@@ -196,7 +202,6 @@
          *
          * @return bool
          * @throws \ArgumentCountError
-         * @throws \Error
          */
         public static function hasAnyKey(array $array, string ...$paths) :bool
         {
@@ -209,11 +214,11 @@
             }
 
             foreach ($paths as &$path) {
-                if ($path === '') {
+                $path = self::splitPath($path);
+                if (empty($path)) {
                     continue;
                 }
 
-                $path  = self::splitPath($path);
                 $scope = &$array;
                 $i     = 0;
 
@@ -235,26 +240,28 @@
 
         /**
          * Return the $array's value placed on the $path if it exists, otherwise $default.
-         * If $path is null or empty string, whole $array will be returned.
+         * If $path is null, whole $array will be returned.
          *
          * @param array       $array
          * @param string|null $path
          * @param mixed       $default
          *
          * @return mixed
-         * @throws \Error
          */
         public static function get(array $array, ?string $path = null, $default = null)
         {
             if (empty($array)) {
                 return $default;
             }
-            if ($path === '') {
+            if ($path === null) {
                 return $array;
             }
 
             $path = self::splitPath($path);
-            $i    = 0;
+            if (empty($path)) {
+                return $default;
+            }
+            $i = 0;
 
             for (; $i < count($path) - 1; $i++) {
                 if (!isset($array[$path[$i]]) || !\is_array($array[$path[$i]])) {
@@ -276,7 +283,6 @@
          *
          * @return array
          * @throws \ArgumentCountError
-         * @throws \Error
          */
         public static function delete(array $array, string ...$paths) :array
         {
@@ -286,11 +292,11 @@
 
             if (!empty($array)) {
                 foreach ($paths as &$path) {
-                    if ($path === '') {
+                    $path = self::splitPath($path);
+                    if (empty($path)) {
                         continue;
                     }
 
-                    $path  = self::splitPath($path);
                     $scope = &$array;
                     $i     = 0;
 
@@ -320,7 +326,6 @@
          * @return array
          * @throws \ArgumentCountError
          * @throws \TypeError
-         * @throws \Error
          */
         public static function set(array $array, ...$args) :array
         {
@@ -343,11 +348,11 @@
             }
 
             foreach ($args as $path => &$value) {
-                if ($path === '') {
+                $path = self::splitPath($path);
+                if (empty($path)) {
                     continue;
                 }
 
-                $path  = self::splitPath($path);
                 $scope = &$array;
                 $i     = 0;
 
