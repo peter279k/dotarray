@@ -12,6 +12,24 @@
 
     class ATest extends TestCase
     {
+        public function getPrivateProperty(string $className, string $propertyName)
+        {
+            $reflector = new \ReflectionClass($className);
+            $property  = $reflector->getProperty($propertyName);
+            $property->setAccessible(true);
+
+            return $property;
+        }
+
+        public function getPrivateMethod(string $className, string $methodName)
+        {
+            $reflector = new \ReflectionClass($className);
+            $method    = $reflector->getMethod($methodName);
+            $method->setAccessible(true);
+
+            return $method;
+        }
+
         public function testEvery() :void
         {
             $array = ['Hello', 'world', '!'];
@@ -64,6 +82,16 @@
         {
             $this->expectException(\ArgumentCountError::class);
             A::hasAny([]);
+        }
+
+        public function testSplitPath()
+        {
+            $method = $this->getPrivateMethod(A::class, 'splitPath');
+
+            $this->assertEquals(['a', 'b', 'c'], $method->invoke(null, 'a.b.c'));
+            $this->assertEquals(['a', 'b', 'c'], $method->invoke(null, 'a.b..c'));
+            $this->assertEquals(['a\\', 'b', 'c'], $method->invoke(null, 'a\\\\.b.c'));
+            $this->assertEquals(['a.b', 'c'], $method->invoke(null, 'a\.b.c'));
         }
 
         public function testHasKey() :void

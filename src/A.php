@@ -113,6 +113,32 @@
             return false;
         }
 
+
+        /**
+         * Split given string to it's segments according to dot notation.
+         * Empty segments will be ignored.
+         * Supports escaping.
+         *
+         * @param string $path
+         *
+         * @return array
+         * @throws \Error
+         */
+        private static function splitPath(string $path) :array
+        {
+            $segments = preg_split('~\\\\.(*SKIP)(*F)|\.~s', $path, -1, PREG_SPLIT_NO_EMPTY);
+
+            if ($segments === false) {
+                throw new \Error('Unable to split path to segments');
+            }
+
+            foreach ($segments as &$segment) {
+                $segment = stripslashes($segment);
+            }
+
+            return $segments;
+        }
+
         /**
          * Check if $array has ALL of $paths.
          * Works on lazy algorithm, so it will return FALSE on first non-existing $path.
@@ -123,6 +149,7 @@
          *
          * @return bool
          * @throws \ArgumentCountError
+         * @throws \Error
          */
         public static function hasKey(array $array, string ...$paths) :bool
         {
@@ -139,20 +166,17 @@
                     continue;
                 }
 
-                $path  = preg_split('~\\\\.(*SKIP)(*F)|\.~s', $path);
+                $path  = self::splitPath($path);
                 $scope = &$array;
                 $i     = 0;
 
                 for (; $i < count($path) - 1; $i++) {
-                    $path[$i] = stripslashes($path[$i]);
                     if (!isset($scope[$path[$i]]) || !\is_array($scope[$path[$i]])) {
                         return false;
                     }
 
                     $scope = &$scope[$path[$i]];
                 }
-
-                $path[$i] = stripslashes($path[$i]);
 
                 if (!isset($scope[$path[$i]]) && !\array_key_exists($path[$i], $scope)) {
                     return false;
@@ -172,6 +196,7 @@
          *
          * @return bool
          * @throws \ArgumentCountError
+         * @throws \Error
          */
         public static function hasAnyKey(array $array, string ...$paths) :bool
         {
@@ -188,20 +213,17 @@
                     continue;
                 }
 
-                $path  = preg_split('~\\\\.(*SKIP)(*F)|\.~s', $path);
+                $path  = self::splitPath($path);
                 $scope = &$array;
                 $i     = 0;
 
                 for (; $i < count($path) - 1; $i++) {
-                    $path[$i] = stripslashes($path[$i]);
                     if (!isset($scope[$path[$i]]) || !\is_array($scope[$path[$i]])) {
                         continue 2;
                     }
 
                     $scope = &$scope[$path[$i]];
                 }
-
-                $path[$i] = stripslashes($path[$i]);
 
                 if (isset($scope[$path[$i]]) || \array_key_exists($path[$i], $scope)) {
                     return true;
@@ -220,6 +242,7 @@
          * @param mixed       $default
          *
          * @return mixed
+         * @throws \Error
          */
         public static function get(array $array, ?string $path = null, $default = null)
         {
@@ -230,19 +253,16 @@
                 return $array;
             }
 
-            $path = preg_split('~\\\\.(*SKIP)(*F)|\.~s', $path);
+            $path = self::splitPath($path);
             $i    = 0;
 
             for (; $i < count($path) - 1; $i++) {
-                $path[$i] = stripslashes($path[$i]);
                 if (!isset($array[$path[$i]]) || !\is_array($array[$path[$i]])) {
                     return $default;
                 }
 
                 $array = &$array[$path[$i]];
             }
-
-            $path[$i] = stripslashes($path[$i]);
 
             return (isset($array[$path[$i]]) && \array_key_exists($path[$i], $array)) ? $array[$path[$i]] : $default;
         }
@@ -256,6 +276,7 @@
          *
          * @return array
          * @throws \ArgumentCountError
+         * @throws \Error
          */
         public static function delete(array $array, string ...$paths) :array
         {
@@ -263,26 +284,23 @@
                 throw new \ArgumentCountError('Too few arguments to function xobotyi\A::delete(), 1 passed, at least 2 expected');
             }
 
-            if ($array) {
+            if (!empty($array)) {
                 foreach ($paths as &$path) {
                     if ($path === '') {
                         continue;
                     }
 
-                    $path  = preg_split('~\\\\.(*SKIP)(*F)|\.~s', $path);
+                    $path  = self::splitPath($path);
                     $scope = &$array;
                     $i     = 0;
 
                     for (; $i < count($path) - 1; $i++) {
-                        $path[$i] = stripslashes($path[$i]);
                         if (!isset($scope[$path[$i]]) || !\is_array($scope[$path[$i]])) {
                             continue 2;
                         }
 
                         $scope = &$scope[$path[$i]];
                     }
-
-                    $path[$i] = stripslashes($path[$i]);
 
                     unset($scope[$path[$i]]);
                 }
@@ -302,6 +320,7 @@
          * @return array
          * @throws \ArgumentCountError
          * @throws \TypeError
+         * @throws \Error
          */
         public static function set(array $array, ...$args) :array
         {
@@ -328,20 +347,17 @@
                     continue;
                 }
 
-                $path  = preg_split('~\\\\.(*SKIP)(*F)|\.~s', $path);
+                $path  = self::splitPath($path);
                 $scope = &$array;
                 $i     = 0;
 
                 for (; $i < count($path) - 1; $i++) {
-                    $path[$i] = stripslashes($path[$i]);
                     if (!isset($scope[$path[$i]]) || !\is_array($scope[$path[$i]])) {
                         $scope[$path[$i]] = [];
                     }
 
                     $scope = &$scope[$path[$i]];
                 }
-
-                $path[$i] = stripslashes($path[$i]);
 
                 $scope[$path[$i]] = $value;
             }
