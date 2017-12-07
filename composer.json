@@ -1,0 +1,32 @@
+{
+  "name": "xobotyi/arr",
+  "description": "",
+  "type": "library",
+  "keywords": [
+    "php",
+    "array",
+    "arrays",
+    "dot-notation",
+    "dotnotation",
+    "notation"
+  ],
+  "license": "New BSD",
+  "authors": [
+    {
+      "name": "Anton Zinovyev",
+      "email": "xog3@yandex.ru",
+      "role": "Founder"
+    }
+  ],
+  "require": {
+    "php": ">=7.1"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^6.5"
+  },
+  "autoload": {
+    "psr-4": {
+      "xobotyi\\": "src"
+    }
+  }
+}
