@@ -11,7 +11,7 @@ matrix:
 
 before_script:
   - travis_retry composer self-update
-  - travis_retry composer require php-coveralls/php-coveralls:^1.1
+  - travis_retry composer require php-coveralls/php-coveralls:^1.0
   - travis_retry composer update --no-interaction
 
 script:
