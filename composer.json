@@ -1,14 +1,13 @@
 {
   "name": "xobotyi/arr",
-  "description": "",
+  "description": "Handle your arrays easily with dot notation access style",
   "type": "library",
   "keywords": [
     "php",
     "array",
-    "arrays",
     "dot-notation",
-    "dotnotation",
-    "notation"
+    "array-methods",
+    "array-access"
   ],
   "license": "New BSD",
   "authors": [
