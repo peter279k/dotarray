@@ -65,11 +65,11 @@
          */
         public static function has(array $array, ...$values) :bool
         {
-            if (!$values) {
+            if (empty($values)) {
                 throw new \ArgumentCountError('Too few arguments to function xobotyi\A::has(), 1 passed, at least 2 expected');
             }
 
-            if (!$array) {
+            if (empty($array)) {
                 return false;
             }
 
@@ -96,11 +96,11 @@
          */
         public static function hasAny(array $array, ...$values) :bool
         {
-            if (!$values) {
+            if (empty($values)) {
                 throw new \ArgumentCountError('Too few arguments to function xobotyi\A::hasAny(), 1 passed, at least 2 expected');
             }
 
-            if (!$array) {
+            if (empty($array)) {
                 return false;
             }
 
@@ -126,11 +126,11 @@
          */
         public static function hasKey(array $array, string ...$paths) :bool
         {
-            if (!$paths) {
+            if (empty($paths)) {
                 throw new \ArgumentCountError('Too few arguments to function xobotyi\A::hasKey(), 1 passed, at least 2 expected');
             }
 
-            if (!$array) {
+            if (empty($array)) {
                 return false;
             }
 
@@ -175,11 +175,11 @@
          */
         public static function hasAnyKey(array $array, string ...$paths) :bool
         {
-            if (!$paths) {
+            if (empty($paths)) {
                 throw new \ArgumentCountError('Too few arguments to function xobotyi\A::hasAnyKey(), 1 passed, at least 2 expected');
             }
 
-            if (!$array) {
+            if (empty($array)) {
                 return false;
             }
 
@@ -223,7 +223,7 @@
          */
         public static function get(array $array, ?string $path = null, $default = null)
         {
-            if (!$array) {
+            if (empty($array)) {
                 return $default;
             }
             if ($path === '') {
@@ -259,7 +259,7 @@
          */
         public static function delete(array $array, string ...$paths) :array
         {
-            if (!$paths) {
+            if (empty($paths)) {
                 throw new \ArgumentCountError('Too few arguments to function xobotyi\A::delete(), 1 passed, at least 2 expected');
             }
 
@@ -305,7 +305,7 @@
          */
         public static function set(array $array, ...$args) :array
         {
-            if (!$args) {
+            if (empty($args)) {
                 throw new \ArgumentCountError('Too few arguments to function xobotyi\A::set(), 1 passed, at least 2 expected');
             }
 
@@ -358,7 +358,7 @@
          */
         public static function isAssoc(array $array) :bool
         {
-            if (!$array) {
+            if (empty($array)) {
                 return false;
             }
 
@@ -394,7 +394,7 @@
          */
         public static function append(array $array, ...$values) :array
         {
-            if (!$values) {
+            if (empty($values)) {
                 throw new \ArgumentCountError('Too few arguments to function xobotyi\A::append(), 1 passed, at least 2 expected');
             }
 
@@ -416,7 +416,7 @@
          */
         public static function prepend(array $array, ...$values) :array
         {
-            if (!$values) {
+            if (empty($values)) {
                 throw new \ArgumentCountError('Too few arguments to function xobotyi\A::prepend(), 1 passed, at least 2 expected');
             }
 
