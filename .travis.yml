@@ -1,22 +1,23 @@
-sudo: false
-
 language: php
 
-matrix:
-  include:
-    - php: 7.1
-    - php: 7.2
+sudo: false
 
-install:
-  - travis_retry composer self-update
-  - travis_retry composer update --no-interaction --dev
+php:
+  - 7.0
+  - 7.1
+  - 7.2
+
+matrix:
+  fast_finish: true
 
 before_script:
-  - if [[ $ANALYZE == 'true' ]]; then travis_retry composer require php-coveralls/php-coveralls:^1.0 ; fi;
+  - travis_retry composer self-update
+  - travis_retry composer require php-coveralls/php-coveralls:^1.1
+  - travis_retry composer update --no-interaction --dev
 
 script:
-  - if [[ $ANALYZE == 'true' ]]; then vendor/bin/phpunit --coverage-clover build/logs/clover.xml ; fi;
-  - if [[ $ANALYZE != 'true' ]]; then vendor/bin/phpunit ; fi;
+  - vendor/bin/phpunit --coverage-clover build/logs/clover.xml
+  - vendor/bin/phpunit
 
 after_success:
-  - if [[ $ANALYZE == 'true' ]]; then php vendor/bin/coveralls -v ; fi
+  - php vendor/bin/coveralls -v
