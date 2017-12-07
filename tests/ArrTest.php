@@ -42,6 +42,12 @@
             $this->assertFalse(Arr::has($array, false, null, ['bar']));
         }
 
+        public function testHasException1() :void
+        {
+            $this->expectException(\ArgumentCountError::class);
+            Arr::has([]);
+        }
+
         public function testHasAny() :void
         {
             $this->assertFalse(Arr::hasAny([], 0));
@@ -52,6 +58,12 @@
             $this->assertFalse(Arr::hasAny($array, true));
             $this->assertTrue(Arr::hasAny($array, false, true));
             $this->assertFalse(Arr::hasAny($array, true, 1, ['bar']));
+        }
+
+        public function testHasAnyException1() :void
+        {
+            $this->expectException(\ArgumentCountError::class);
+            Arr::hasAny([]);
         }
 
         public function testHasKey() :void
@@ -67,6 +79,7 @@
 
             $this->assertTrue(Arr::hasKey($array, 'a'));
             $this->assertTrue(Arr::hasKey($array, 'b.c.d'));
+            $this->assertFalse(Arr::hasKey($array, 'b.d.e'));
             $this->assertFalse(Arr::hasKey($array, 'b.c.e'));
             $this->assertTrue(Arr::hasKey($array, 'b\.c\\\\\.d'));
 
@@ -74,6 +87,11 @@
             $this->assertFalse(Arr::hasKey($array, 'b.c.d', 'b.c.e'));
         }
 
+        public function testHasKeyException1() :void
+        {
+            $this->expectException(\ArgumentCountError::class);
+            Arr::hasKey([]);
+        }
 
         public function testHasAnyKey() :void
         {
@@ -88,12 +106,19 @@
 
             $this->assertTrue(Arr::hasAnyKey($array, 'a'));
             $this->assertTrue(Arr::hasAnyKey($array, 'b.c.d'));
+            $this->assertFalse(Arr::hasAnyKey($array, 'b.d.e'));
             $this->assertFalse(Arr::hasAnyKey($array, 'b.c.e'));
             $this->assertTrue(Arr::hasAnyKey($array, 'b\.c\\\\\.d'));
 
             $this->assertTrue(Arr::hasAnyKey($array, 0, 2, 'b.c.d'));
             $this->assertTrue(Arr::hasAnyKey($array, 'b.c.d', 'b.c.e'));
             $this->assertFalse(Arr::hasAnyKey($array, 'b.c.f', 'b.c.e'));
+        }
+
+        public function testHasAnyKeyException1() :void
+        {
+            $this->expectException(\ArgumentCountError::class);
+            Arr::hasAnyKey([]);
         }
 
         public function testGet() :void
@@ -153,19 +178,27 @@
             ];
 
             $this->assertEquals($array, Arr::delete($array, ''));
-            $this->assertEquals($array = [
-                'a' => [
-                    'b' => [
-                        0   => 0,
-                        'c' => 1,
-                    ],
-                ],
-            ], Arr::delete($array, 0));
-            $this->assertEquals($array = [
-                'a' => [
-                    'b' => [],
-                ],
-            ], Arr::delete($array, 0, 'a.b.c', 'a.b.0'));
+            $this->assertEquals([
+                                    'a' => [
+                                        'b' => [
+                                            0   => 0,
+                                            'c' => 1,
+                                        ],
+                                    ],
+                                ], Arr::delete($array, 0));
+            $this->assertEquals([
+                                    'a' => [
+                                        'b' => [],
+                                    ],
+                                ], Arr::delete($array, 0, 'a.b.c', 'a.d.c', 'a.b.0'));
+
+
+        }
+
+        public function testDeleteException1() :void
+        {
+            $this->expectException(\ArgumentCountError::class);
+            Arr::delete([]);
         }
 
         public function testSet() :void
@@ -182,6 +215,24 @@
                                 Arr::set($array, ['foo' => 'bar', 'foo.bar' => 'baz']));
             $this->assertEquals(['foo' => 'bar', 'baz' => ['qwe' => 'bat']],
                                 Arr::set($array, ['foo' => 'bar', 'baz.qwe' => 'bat']));
+        }
+
+        public function testSetException1() :void
+        {
+            $this->expectException(\ArgumentCountError::class);
+            Arr::set([]);
+        }
+
+        public function testSetException2() :void
+        {
+            $this->expectException(\ArgumentCountError::class);
+            Arr::set([], '123');
+        }
+
+        public function testSetException3() :void
+        {
+            $this->expectException(\TypeError::class);
+            Arr::set([], null);
         }
 
         public function testIsAssoc() :void
