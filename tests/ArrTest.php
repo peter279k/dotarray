@@ -260,4 +260,59 @@
             $array[8] = false;
             $this->assertFalse(Arr::isSequential($array));
         }
+
+        public function testAppend() :void
+        {
+            $array = [];
+
+            $array = Arr::append($array, 1, 2);
+            $this->assertEquals([1, 2], $array);
+
+            $array = Arr::append($array, 1, 2);
+            $this->assertEquals([1, 2, 1, 2], $array);
+        }
+
+        public function testAppendException1() :void
+        {
+            $this->expectException(\ArgumentCountError::class);
+            Arr::append([]);
+        }
+
+        public function testPrepend() :void
+        {
+            $array = [];
+
+            $array = Arr::prepend($array, 1, 2);
+            $this->assertEquals([2, 1], $array);
+
+            $array = Arr::prepend($array, 1, 2);
+            $this->assertEquals([2, 1, 2, 1], $array);
+        }
+
+        public function testPrependException1() :void
+        {
+            $this->expectException(\ArgumentCountError::class);
+            Arr::prepend([]);
+        }
+
+        public function testWalk() :void
+        {
+            $array  = [1, 2, [1, 2, 3]];
+            $result = [];
+
+            Arr::walk($array, function ($item) use (&$result) { $result[] = $item; });
+            $this->assertEquals($array, $result);
+            $result = [];
+
+            Arr::walk($array, function ($item) use (&$result) { $result[] = $item; }, true);
+            $this->assertEquals([1, 2, 1, 2, 3], $result);
+        }
+
+        public function testValues() :void
+        {
+            $array = ['a' => 1, 'b' => 2, 'c' => [1, 2, 3]];
+
+            $this->assertEquals([1, 2, [1, 2, 3]], Arr::values($array));
+            $this->assertEquals([1, 2, 1, 2, 3], Arr::values($array, true));
+        }
     }
