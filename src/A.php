@@ -362,7 +362,7 @@
                 return false;
             }
 
-            foreach (array_keys($array) as &$key) {
+            foreach (array_keys($array) as $key) {
                 if (\is_string($key)) {
                     return true;
                 }
