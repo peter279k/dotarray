@@ -163,7 +163,7 @@
          * @param array  $array
          * @param string $path
          * @param bool   $create
-         * @param null   $createValue
+         * @param mixed  $createValue
          *
          * @return array
          */
