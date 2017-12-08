@@ -84,6 +84,14 @@
             A::hasAny([]);
         }
 
+        public function testArrayKeyExists()
+        {
+            $array = ['hello' => 'world'];
+
+            $this->assertFalse(A::arrayKeyExists($array, 'hell'));
+            $this->assertTrue(A::arrayKeyExists($array, 'hello'));
+        }
+
         public function testSplitPath()
         {
             $method = $this->getPrivateMethod(A::class, 'splitPath');
@@ -96,13 +104,37 @@
             $this->assertEquals(['a.b', 'c'], $method->invoke(null, 'a\.b.c'));
         }
 
+        public function testGetKeyRef()
+        {
+            $method = $this->getPrivateMethod(A::class, 'getKeyRef');
+
+            $array = ['a' => ['b' => 'c']];
+
+            $this->assertEquals(['exists' => false,], $method->invokeArgs(null, [&$array, '']));
+            $this->assertEquals(['exists' => false,], $method->invokeArgs(null, [&$array, '..']));
+            $this->assertEquals(['exists' => false,], $method->invokeArgs(null, [&$array, 'b']));
+            $this->assertEquals(['exists' => false,], $method->invokeArgs(null, [&$array, 'a.d']));
+            $this->assertEquals([
+                                    'exists'    => true,
+                                    'ref'       => &$array['a']['b'],
+                                    'parentRef' => &$array['a'],
+                                    'key'       => "b",
+                                ], $method->invokeArgs(null, [&$array, 'a.b']));
+            $this->assertEquals([
+                                    'exists'    => true,
+                                    'ref'       => 'Hello world!',
+                                    'parentRef' => ['c' => 'Hello world!'],
+                                    'key'       => "c",
+                                ], $method->invokeArgs(null, [&$array, 'a.b.c', true, 'Hello world!']));
+        }
+
         public function testHasKey() :void
         {
             $this->assertFalse(A::hasKey([], 0));
 
             $array = [0 => 0, 'a' => 1, 2 => 1, 'b' => ['c' => ['d' => 1]], 'b.c\\.d' => 'qwe'];
 
-            $this->assertTrue(A::hasKey($array, ''));
+            $this->assertFalse(A::hasKey($array, ''));
             $this->assertTrue(A::hasKey($array, 0));
             $this->assertTrue(A::hasKey($array, 2));
             $this->assertFalse(A::hasKey($array, 3));
