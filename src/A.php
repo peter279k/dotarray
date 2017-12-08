@@ -180,14 +180,13 @@
 
             for ($i = 0; $i < count($path) - 1; $i++) {
                 if (!isset($scope[$path[$i]]) || !\is_array($scope[$path[$i]])) {
-                    if ($create) {
-                        $scope[$path[$i]] = [];
-                    }
-                    else {
+                    if (!$create) {
                         return [
                             'exists' => false,
                         ];
                     }
+
+                    $scope[$path[$i]] = [];
                 }
 
                 $scope = &$scope[$path[$i]];
