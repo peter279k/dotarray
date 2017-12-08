@@ -18,10 +18,12 @@
     }
   ],
   "require": {
-    "php": ">=7.1"
+    "php": ">=7.1",
+    "codacy/coverage": "dev-master"
   },
   "require-dev": {
-    "phpunit/phpunit": "^6.5.3"
+    "phpunit/phpunit": "^6.5.3",
+    "codacy/coverage": "dev-master"
   },
   "autoload": {
     "psr-4": {
