@@ -485,6 +485,20 @@
             return $res;
         }
 
+        /**
+         * Return last $count element(s) value from an $array.
+         * If $array is empty - empty array will be returned,
+         * If $count == 1 - last item value will be returned,
+         * If $count > 1 - array with $count last items value will be returned.
+         *
+         * Note, that returned values depends of how current arrays sorted.
+         *
+         * @param array $array
+         * @param int   $count
+         *
+         * @return mixed
+         * @throws \Error
+         */
         public static function last(array $array, int $count = 1)
         {
             if ($count <= 0) {
@@ -500,6 +514,20 @@
             return \array_values(\array_slice($array, (($o = count($array) - $count) < 0 ? 0 : $o), $count, false));
         }
 
+        /**
+         * Return last $count element(s) key from an $array.
+         * If $array is empty - empty array will be returned,
+         * If $count == 1 - last item key will be returned,
+         * If $count > 1 - array with $count last items keys will be returned.
+         *
+         * Note, that returned values depends of how current arrays sorted.
+         *
+         * @param array $array
+         * @param int   $count
+         *
+         * @return array|int|string
+         * @throws \Error
+         */
         public static function lastKeys(array $array, int $count = 1)
         {
             if ($count <= 0) {
@@ -517,6 +545,20 @@
             return \array_keys(\array_slice($array, (($o = count($array) - $count) < 0 ? 0 : $o), $count, true));
         }
 
+        /**
+         * Return first $count element(s) value from an $array.
+         * If $array is empty - empty array will be returned,
+         * If $count == 1 - first item value will be returned,
+         * If $count > 1 - array with $count first items value will be returned.
+         *
+         * Note, that returned values depends of how current arrays sorted.
+         *
+         * @param array $array
+         * @param int   $count
+         *
+         * @return mixed
+         * @throws \Error
+         */
         public static function first(array $array, int $count = 1)
         {
             if ($count <= 0) {
@@ -532,10 +574,24 @@
             return \array_values(\array_slice($array, 0, $count));
         }
 
+        /**
+         * Return first $count element(s) keys from an $array.
+         * If $array is empty - empty array will be returned,
+         * If $count == 1 - first item keys will be returned,
+         * If $count > 1 - array with $count first items keys will be returned.
+         *
+         * Note, that returned values depends of how current arrays sorted.
+         *
+         * @param array $array
+         * @param int   $count
+         *
+         * @return array|int|string
+         * @throws \Error
+         */
         public static function firstKeys(array $array, int $count = 1)
         {
             if ($count <= 0) {
-                throw new \Error("xobotyi\\A::first() 2'nd argument mut be greater than zero, got " . $count);
+                throw new \Error("xobotyi\\A::firstKeys() 2'nd argument mut be greater than zero, got " . $count);
             }
             else if (empty($array)) {
                 return [];
@@ -549,6 +605,14 @@
             return \array_keys(\array_slice($array, 0, $count, true));
         }
 
+        /**
+         * Glue $array items into a string, with $glue as delimiter.
+         *
+         * @param array  $array
+         * @param string $glue
+         *
+         * @return string
+         */
         public static function glue(array $array, string $glue = '') :string
         {
             return \implode($glue, $array);
