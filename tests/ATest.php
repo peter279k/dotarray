@@ -378,4 +378,66 @@
             $this->assertEquals([1, 2, [1, 2, 3]], A::values($array));
             $this->assertEquals([1, 2, 1, 2, 3], A::values($array, true));
         }
+
+        public function testLast() :void
+        {
+            $this->assertEquals([], A::last([]));
+            $this->assertEquals(false, A::last([false]));
+            $this->assertEquals([2, 3], A::last([1, 2, 3], 2));
+            $this->assertEquals([2, 3], A::last(['a' => 1, 'b' => 2, 'c' => 3], 2));
+        }
+
+        public function testLastException() :void
+        {
+            $this->expectException(\Error::class);
+            A::last([], -1);
+        }
+
+        public function testLastKeys() :void
+        {
+            $this->assertEquals([], A::lastKeys([]));
+            $this->assertEquals(0, A::lastKeys([false]));
+            $this->assertEquals([1, 2], A::lastKeys([1, 2, 3], 2));
+            $this->assertEquals(['b', 'c'], A::lastKeys(['a' => 1, 'b' => 2, 'c' => 3], 2));
+        }
+
+        public function testLastKeysException() :void
+        {
+            $this->expectException(\Error::class);
+            A::lastKeys([], -1);
+        }
+
+        public function testFirst() :void
+        {
+            $this->assertEquals([], A::first([]));
+            $this->assertEquals(false, A::first([false]));
+            $this->assertEquals([1, 2], A::first([1, 2, 3], 2));
+            $this->assertEquals([1, 2], A::first(['a' => 1, 'b' => 2, 'c' => 3], 2));
+        }
+
+        public function testFirstException() :void
+        {
+            $this->expectException(\Error::class);
+            A::first([], -1);
+        }
+
+        public function testFirstKeys() :void
+        {
+            $this->assertEquals([], A::firstKeys([]));
+            $this->assertEquals(false, A::firstKeys([false]));
+            $this->assertEquals([0, 1], A::firstKeys([1, 2, 3], 2));
+            $this->assertEquals(['a', 'b'], A::firstKeys(['a' => 1, 'b' => 2, 'c' => 3], 2));
+        }
+
+        public function testFirstKeysException() :void
+        {
+            $this->expectException(\Error::class);
+            A::firstKeys([], -1);
+        }
+
+        public function testGlue() :void
+        {
+            $this->assertEquals('', A::glue([]));
+            $this->assertEquals('1,2,3', A::glue([1, 2, 3], ','));
+        }
     }

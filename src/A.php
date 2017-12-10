@@ -484,4 +484,73 @@
 
             return $res;
         }
+
+        public static function last(array $array, int $count = 1)
+        {
+            if ($count <= 0) {
+                throw new \Error("xobotyi\\A::last() 2'nd argument mut be greater than zero, got " . $count);
+            }
+            else if (empty($array)) {
+                return [];
+            }
+            else if ($count === 1) {
+                return \end($array);
+            }
+
+            return \array_values(\array_slice($array, (($o = count($array) - $count) < 0 ? 0 : $o), $count, false));
+        }
+
+        public static function lastKeys(array $array, int $count = 1)
+        {
+            if ($count <= 0) {
+                throw new \Error("xobotyi\\A::lastKeys() 2'nd argument mut be greater than zero, got " . $count);
+            }
+            else if (empty($array)) {
+                return [];
+            }
+            else if ($count === 1) {
+                \end($array);
+
+                return \key($array);
+            }
+
+            return \array_keys(\array_slice($array, (($o = count($array) - $count) < 0 ? 0 : $o), $count, true));
+        }
+
+        public static function first(array $array, int $count = 1)
+        {
+            if ($count <= 0) {
+                throw new \Error("xobotyi\\A::first() 2'nd argument mut be greater than zero, got " . $count);
+            }
+            else if (empty($array)) {
+                return [];
+            }
+            else if ($count === 1) {
+                return \reset($array);
+            }
+
+            return \array_values(\array_slice($array, 0, $count));
+        }
+
+        public static function firstKeys(array $array, int $count = 1)
+        {
+            if ($count <= 0) {
+                throw new \Error("xobotyi\\A::first() 2'nd argument mut be greater than zero, got " . $count);
+            }
+            else if (empty($array)) {
+                return [];
+            }
+            else if ($count === 1) {
+                \reset($array);
+
+                return key($array);
+            }
+
+            return \array_keys(\array_slice($array, 0, $count, true));
+        }
+
+        public static function glue(array $array, string $glue = '') :string
+        {
+            return \implode($glue, $array);
+        }
     }
