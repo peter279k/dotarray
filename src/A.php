@@ -511,7 +511,7 @@
                 return \end($array);
             }
 
-            return \array_values(\array_slice($array, (($o = count($array) - $count) < 0 ? 0 : $o), $count, false));
+            return \array_values(\array_slice($array, (($offset = count($array) - $count) < 0 ? 0 : $offset), $count, false));
         }
 
         /**
@@ -542,7 +542,7 @@
                 return \key($array);
             }
 
-            return \array_keys(\array_slice($array, (($o = count($array) - $count) < 0 ? 0 : $o), $count, true));
+            return \array_keys(\array_slice($array, (($offset = count($array) - $count) < 0 ? 0 : $offset), $count, true));
         }
 
         /**
