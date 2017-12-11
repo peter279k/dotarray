@@ -440,4 +440,85 @@
             $this->assertEquals('', A::glue([]));
             $this->assertEquals('1,2,3', A::glue([1, 2, 3], ','));
         }
+
+        public function testChunk() :void
+        {
+            $this->assertEquals([], A::chunk([], 2));
+            $this->assertEquals([[1, 2], [3]], A::chunk([1, 2, 3], 2));
+            $this->assertEquals([[1, 2], [3]], A::chunk(['a' => 1, 'b' => 2, 'c' => 3], 2));
+            $this->assertEquals([['a' => 1, 'b' => 2], ['c' => 3]], A::chunk(['a' => 1, 'b' => 2, 'c' => 3], 2, true));
+        }
+
+        public function testFlip() :void
+        {
+            $this->assertEquals([], A::flip([]));
+            $this->assertEquals([1 => 0, 2 => 1, 3 => 2], A::flip([1, 2, 3]));
+            $this->assertEquals([1 => 'a', 2 => 'b', 3 => 'c'], A::flip(['a' => 1, 'b' => 2, 'c' => 3]));
+        }
+
+        public function testFlipWarn() :void
+        {
+            $this->expectException(\PHPUnit\Framework\Error\Warning::class);
+            A::flip(['a' => 1, 'b' => function () { }, 'c' => 3]);
+        }
+
+        public function testDiff() :void
+        {
+            $a1 = [1, 2, 3];
+            $a2 = [2, 3, 4];
+            $a3 = [4, 5, 6];
+
+            $this->assertEquals([], A::diff([], $a2, $a3));
+            $this->assertEquals([1], A::diff($a1, $a2));
+            $this->assertEquals([2, 3], A::diff($a2, $a3));
+            $this->assertEquals([5, 6], A::diff($a3, $a2));
+        }
+
+        public function testDiffException() :void
+        {
+            $this->expectException(\ArgumentCountError::class);
+            A::diff([]);
+        }
+
+        public function testSymdiff() :void
+        {
+            $a1 = [1, 2, 3, 4];
+            $a2 = [3, 2, 4, 5];
+            $a3 = [4, 5, 6];
+
+            $this->assertEquals([3, 2, 4, 5, 6], A::symdiff([], $a2, $a3));
+            $this->assertEquals([1, 5], A::symdiff($a1, $a2));
+            $this->assertEquals([1, 2, 3, 5, 6], A::symdiff($a1, $a2, $a3));
+            $this->assertEquals([1, 6], A::symdiff($a1, $a2, $a3, true));
+            $this->assertEquals([2, 3, 6],
+                                A::symdiff(
+                                    [4],
+                                    [2, 3],
+                                    [4, 5, 6, 7],
+                                    [5, 7],
+                                    true));
+        }
+
+        public function testSymdiffException() :void
+        {
+            $this->expectException(\ArgumentCountError::class);
+            A::symdiff([]);
+        }
+
+        public function testIntersect() :void
+        {
+            $a1 = [1, 2, 3, 4];
+            $a2 = [2, 3, 4];
+            $a3 = [4, 5, 6];
+
+            $this->assertEquals([], A::intersect([], []));
+            $this->assertEquals([2, 3, 4], A::intersect($a1, $a2));
+            $this->assertEquals([4], A::intersect($a1, $a2, $a3));
+        }
+
+        public function testIntersectException() :void
+        {
+            $this->expectException(\ArgumentCountError::class);
+            A::intersect([]);
+        }
     }

@@ -511,7 +511,7 @@
                 return \end($array);
             }
 
-            return \array_values(\array_slice($array, (($offset = count($array) - $count) < 0 ? 0 : $offset), $count, false));
+            return \array_values(\array_slice($array, -$count, $count, false));
         }
 
         /**
@@ -542,7 +542,7 @@
                 return \key($array);
             }
 
-            return \array_keys(\array_slice($array, (($offset = count($array) - $count) < 0 ? 0 : $offset), $count, true));
+            return \array_keys(\array_slice($array, -$count, $count, true));
         }
 
         /**
@@ -571,7 +571,7 @@
                 return \reset($array);
             }
 
-            return \array_values(\array_slice($array, 0, $count));
+            return \array_values(\array_slice($array, 0, $count, false));
         }
 
         /**
@@ -616,5 +616,169 @@
         public static function glue(array $array, string $glue = '') :string
         {
             return \implode($glue, $array);
+        }
+
+        /**
+         * Split an $array into chunks of size $chunkSize.
+         * If $preserveKeys is true, items keys will be saved in chunks.
+         *
+         * @param array $array
+         * @param int   $chunkSize
+         * @param bool  $preserveKeys
+         *
+         * @return array
+         */
+        public static function chunk(array $array, int $chunkSize, bool $preserveKeys = false) :array
+        {
+            if (empty($array)) {
+                return [];
+            }
+
+            return \array_chunk($array, $chunkSize, $preserveKeys);
+        }
+
+        /**
+         * Swap $array keys and values.
+         * Note that values have to be a valid keys, to be included in output,
+         * otherwise they will be ignored and WARNING will be emitted.
+         *
+         * @param array $array
+         *
+         * @return array
+         */
+        public static function flip(array $array) :array
+        {
+            return \array_flip($array);
+        }
+
+        /**
+         * Return elements presented only in $array, comparing to other given arrays values despite of keys.
+         * If the last given argument is boolean and TRUE, arrays keys will be preserved,
+         * otherwise, all given arguments should be of type array.
+         *
+         * @param array   $array
+         * @param mixed[] $arrays
+         *
+         * @return array
+         * @throws \ArgumentCountError
+         */
+        public static function diff(array $array, ...$arrays) :array
+        {
+            if (empty($arrays)) {
+                throw new \ArgumentCountError('Too few arguments to function xobotyi\A::diff(), 1 passed, at least 2 expected');
+            }
+
+            $preserve = array_pop($arrays);
+
+            if (!is_bool($preserve)) {
+                $arrays[] = $preserve;
+                $preserve = false;
+            }
+
+            return $preserve ? \array_diff($array, ...$arrays) : \array_values(\array_unique(\array_diff($array, ...$arrays)));
+        }
+
+        /**
+         * Return elements presented only in $array, comparing to other given arrays values AND keys.
+         *
+         * @param array   $array
+         * @param array[] $arrays
+         *
+         * @return array
+         * @throws \ArgumentCountError
+         */
+        public static function diffAssoc(array $array, array ...$arrays) :array
+        {
+            if (empty($arrays)) {
+                throw new \ArgumentCountError('Too few arguments to function xobotyi\A::diffAssoc(), 1 passed, at least 2 expected');
+            }
+
+            return \array_diff_assoc($array, ...$arrays);
+        }
+
+        /**
+         * Return symmetric difference between arrays (values not presented in all the arrays simultaneously).
+         * If the last given argument is boolean and TRUE, result will include only values that has no intersection
+         * with other arrays.
+         *
+         * @param array   $array
+         * @param mixed[] $arrays
+         *
+         * @return array
+         * @throws \ArgumentCountError
+         */
+        public static function symdiff(array $array, ...$arrays) :array
+        {
+            if (empty($arrays)) {
+                throw new \ArgumentCountError('Too few arguments to function xobotyi\A::diff(), 1 passed, at least 2 expected');
+            }
+
+            \array_unshift($arrays, $array);
+            $softDiff = array_pop($arrays);
+
+            if (is_bool($softDiff)) {
+                if ($softDiff) {
+                    $maxIdx = count($arrays) - 1;
+                    $inter  = [];
+
+                    for ($i = 0; $i < $maxIdx; $i++) {
+                        for ($j = $i + 1; $j <= $maxIdx; $j++) {
+                            $inter = \array_merge($inter, \array_values(\array_intersect($arrays[$i], $arrays[$j])));
+                        }
+                    }
+
+                    return \array_values(\array_unique(\array_diff(\array_merge(...$arrays), $inter)));
+                }
+            }
+            else {
+                $arrays[] = $softDiff;
+            }
+
+            return \array_values(\array_unique(\array_diff(\array_merge(...$arrays), \array_intersect(...$arrays))));
+        }
+
+        /**
+         * Return elements presented in $array and all given arrays despite of keys.
+         * If the last given argument is boolean and TRUE, arrays keys will be preserved,
+         * otherwise, all given arguments should be of type array.
+         *
+         * @param array   $array
+         * @param mixed[] $arrays
+         *
+         * @return array
+         * @throws \ArgumentCountError
+         */
+        public static function intersect(array $array, ...$arrays) :array
+        {
+            if (empty($arrays)) {
+                throw new \ArgumentCountError('Too few arguments to function xobotyi\A::intersect(), 1 passed, at least 2 expected');
+            }
+
+            $preserve = array_pop($arrays);
+
+            if (!is_bool($preserve)) {
+                $arrays[] = $preserve;
+                $preserve = false;
+            }
+
+            return $preserve ? \array_intersect($array, ...$arrays) : \array_values(\array_unique(\array_intersect($array, ...$arrays)));
+        }
+
+        /**
+         * Return elements presented in $array and all given arrays in spite of keys.
+         *
+         * @param array   $array
+         * @param array[] ...$arrays
+         *
+         * @return array
+         * @throws \ArgumentCountError
+         */
+        public static function intersectAssoc(array $array, array ...$arrays) :array
+        {
+            if (empty($arrays)) {
+                throw new \ArgumentCountError('Too few arguments to function xobotyi\A::intersectAssoc(), 1 passed, at least 2 expected');
+            }
+
+            return \array_intersect_assoc($array, ...$arrays);
         }
     }
