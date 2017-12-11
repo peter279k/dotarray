@@ -127,6 +127,38 @@
         }
 
         /**
+         * Split given string to it's segments according to dot notation.
+         * Empty segments will be ignored.
+         * Supports escaping.
+         *
+         * @param string $path
+         *
+         * @return array
+         */
+        public static function splitPath(string $path) :array
+        {
+            if ($path === '') {
+                return [];
+            }
+
+            $segments = preg_split('~\\\\.(*SKIP)(*F)|\.~s', $path, -1, PREG_SPLIT_NO_EMPTY);
+
+            if ($segments === false) {
+                // actually this code can't be covered with tests, because i don't know how to make preg_split() return a FALSE value
+                // but handling it in case some one will %)
+                trigger_error('Path splitting failed, received path: ' . $path);
+
+                $segments = [];
+            }
+
+            foreach ($segments as &$segment) {
+                $segment = stripslashes($segment);
+            }
+
+            return $segments;
+        }
+
+        /**
          * Check if $array has ALL of $paths.
          * Works on lazy algorithm, so it will return FALSE on first non-existing $path.
          * Empty paths will be processed as non-existent.
@@ -148,105 +180,34 @@
             }
 
             foreach ($paths as &$path) {
-                if (!self::getKeyRef($array, $path)['exists']) {
+                if ($path === '') {
+                    return false;
+                }
+
+                $path = preg_split('~\\\\.(*SKIP)(*F)|\.~s', $path, -1, PREG_SPLIT_NO_EMPTY);
+
+                if (empty($path)) {
+                    return false;
+                }
+
+                $scope = &$array;
+
+                for ($i = 0; $i < count($path) - 1; $i++) {
+                    $path[$i] = stripslashes($path[$i]);
+                    if (!isset($scope[$path[$i]]) || !\is_array($scope[$path[$i]])) {
+                        return false;
+                    }
+
+                    $scope = &$scope[$path[$i]];
+                }
+
+                $path[$i] = stripslashes($path[$i]);
+                if (!isset($scope[$path[$i]]) && !\array_key_exists($path[$i], $scope)) {
                     return false;
                 }
             }
 
             return true;
-        }
-
-        /**
-         * Array crawler, returns the array with reference to existent item, or creates it if it needed.
-         * Empty paths will be processed as non-existent.
-         *
-         * @param array  $array
-         * @param string $path
-         * @param bool   $create
-         * @param mixed  $createValue
-         *
-         * @return array
-         */
-        private static function getKeyRef(array &$array, string $path, bool $create = false, $createValue = null) :array
-        {
-            $path = self::splitPath($path);
-            if (empty($path)) {
-                return [
-                    'exists' => false,
-                ];
-            }
-
-            $scope = &$array;
-
-            for ($i = 0; $i < count($path) - 1; $i++) {
-                if (!isset($scope[$path[$i]]) || !\is_array($scope[$path[$i]])) {
-                    if (!$create) {
-                        return [
-                            'exists' => false,
-                        ];
-                    }
-
-                    $scope[$path[$i]] = [];
-                }
-
-                $scope = &$scope[$path[$i]];
-            }
-
-            if ($create) {
-                $scope[$path[$i]] = $createValue;
-
-                return [
-                    'exists'    => true,
-                    'ref'       => &$scope[$path[$i]],
-                    'parentRef' => &$scope,
-                    'key'       => &$path[$i],
-                ];
-            }
-
-            if (isset($scope[$path[$i]]) || \array_key_exists($path[$i], $scope)) {
-                return [
-                    'exists'    => true,
-                    'ref'       => &$scope[$path[$i]],
-                    'parentRef' => &$scope,
-                    'key'       => &$path[$i],
-                ];
-            }
-
-            return [
-                'exists' => false,
-            ];
-        }
-
-        /**
-         * Split given string to it's segments according to dot notation.
-         * Empty segments will be ignored.
-         * Supports escaping.
-         *
-         * @param string $path
-         *
-         * @return array
-         */
-        private static function splitPath(string $path) :array
-        {
-            if ($path === '') {
-                return [];
-            }
-
-            $segments = preg_split('~\\\\.(*SKIP)(*F)|\.~s', $path, -1, PREG_SPLIT_NO_EMPTY);
-
-            if ($segments === false) {
-                // actually this code can't be covered with tests, because i don't know how to make preg_split() return a FALSE value
-                // but handling it in case some one will %)
-                trigger_error('Path splitting failed, received path: ' . $path);
-
-                $segments = [];
-            }
-
-            foreach ($segments as &$segment) {
-                $segment = stripslashes($segment);
-            }
-
-            return $segments;
         }
 
         /**
@@ -271,7 +232,29 @@
             }
 
             foreach ($paths as &$path) {
-                if (self::getKeyRef($array, $path)['exists']) {
+                if ($path === '') {
+                    continue;
+                }
+
+                $path = preg_split('~\\\\.(*SKIP)(*F)|\.~s', $path, -1, PREG_SPLIT_NO_EMPTY);
+
+                if (empty($path)) {
+                    continue;
+                }
+
+                $scope = &$array;
+
+                for ($i = 0; $i < count($path) - 1; $i++) {
+                    $path[$i] = stripslashes($path[$i]);
+                    if (!isset($scope[$path[$i]]) || !\is_array($scope[$path[$i]])) {
+                        continue 2;
+                    }
+
+                    $scope = &$scope[$path[$i]];
+                }
+
+                $path[$i] = stripslashes($path[$i]);
+                if (isset($scope[$path[$i]]) || \array_key_exists($path[$i], $scope)) {
                     return true;
                 }
             }
@@ -285,10 +268,10 @@
          * Empty paths will be processed as non-existent.
          *
          * @param array       $array
-         * @param string|null $path
+         * @param null|string $path
          * @param mixed       $default
          *
-         * @return mixed
+         * @return array|mixed|null
          */
         public static function get(array $array, ?string $path = null, $default = null)
         {
@@ -298,10 +281,30 @@
             if ($path === null) {
                 return $array;
             }
+            if ($path === '') {
+                return $default;
+            }
 
-            $ref = self::getKeyRef($array, $path);
+            $path = preg_split('~\\\\.(*SKIP)(*F)|\.~s', $path, -1, PREG_SPLIT_NO_EMPTY);
 
-            return $ref['exists'] ? $ref['ref'] : $default;
+            if (empty($path)) {
+                return $default;
+            }
+
+            $scope = &$array;
+
+            for ($i = 0; $i < count($path) - 1; $i++) {
+                $path[$i] = stripslashes($path[$i]);
+                if (!isset($scope[$path[$i]]) || !\is_array($scope[$path[$i]])) {
+                    return $default;
+                }
+
+                $scope = &$scope[$path[$i]];
+            }
+
+            $path[$i] = stripslashes($path[$i]);
+
+            return (isset($scope[$path[$i]]) && \array_key_exists($path[$i], $scope)) ? $scope[$path[$i]] : $default;
         }
 
         /**
@@ -321,12 +324,28 @@
             }
 
             foreach ($paths as &$path) {
-                $ref = self::getKeyRef($array, $path);
-
-
-                if ($ref['exists']) {
-                    unset($ref['parentRef'][$ref['key']]);
+                if ($path === '') {
+                    continue;
                 }
+
+                $path = preg_split('~\\\\.(*SKIP)(*F)|\.~s', $path, -1, PREG_SPLIT_NO_EMPTY);
+
+                if (empty($path)) {
+                    continue;
+                }
+
+                $scope = &$array;
+
+                for ($i = 0; $i < count($path) - 1; $i++) {
+                    $path[$i] = stripslashes($path[$i]);
+                    if (!isset($scope[$path[$i]]) || !\is_array($scope[$path[$i]])) {
+                        continue 2;
+                    }
+
+                    $scope = &$scope[$path[$i]];
+                }
+
+                unset($scope[stripslashes($path[$i])]);
             }
 
             return $array;
@@ -365,7 +384,30 @@
             }
 
             foreach ($args as $path => &$value) {
-                self::getKeyRef($array, $path, true, $value);
+                if ($path === '') {
+                    continue;
+                }
+
+                $path = preg_split('~\\\\.(*SKIP)(*F)|\.~s', $path, -1, PREG_SPLIT_NO_EMPTY);
+
+                if (empty($path)) {
+                    continue;
+                }
+
+                $scope = &$array;
+
+                for ($i = 0; $i < count($path) - 1; $i++) {
+                    $path[$i] = stripslashes($path[$i]);
+                    if (!isset($scope[$path[$i]]) || !\is_array($scope[$path[$i]])) {
+                        $scope[$path[$i]] = [];
+                    }
+
+                    $scope = &$scope[$path[$i]];
+                }
+
+                $path[$i] = stripslashes($path[$i]);
+
+                $scope[$path[$i]] = $value;
             }
 
             return $array;

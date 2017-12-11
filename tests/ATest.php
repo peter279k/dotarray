@@ -12,24 +12,6 @@
 
     class ATest extends TestCase
     {
-        public function getPrivateProperty(string $className, string $propertyName)
-        {
-            $reflector = new \ReflectionClass($className);
-            $property  = $reflector->getProperty($propertyName);
-            $property->setAccessible(true);
-
-            return $property;
-        }
-
-        public function getPrivateMethod(string $className, string $methodName)
-        {
-            $reflector = new \ReflectionClass($className);
-            $method    = $reflector->getMethod($methodName);
-            $method->setAccessible(true);
-
-            return $method;
-        }
-
         public function testEvery() :void
         {
             $array = ['Hello', 'world', '!'];
@@ -94,38 +76,12 @@
 
         public function testSplitPath()
         {
-            $method = $this->getPrivateMethod(A::class, 'splitPath');
-
-            $this->assertEquals([], $method->invoke(null, ''));
-            $this->assertEquals([], $method->invoke(null, '...'));
-            $this->assertEquals(['a', 'b', 'c'], $method->invoke(null, 'a.b.c'));
-            $this->assertEquals(['a', 'b', 'c'], $method->invoke(null, 'a.b..c'));
-            $this->assertEquals(['a\\', 'b', 'c'], $method->invoke(null, 'a\\\\.b.c'));
-            $this->assertEquals(['a.b', 'c'], $method->invoke(null, 'a\.b.c'));
-        }
-
-        public function testGetKeyRef()
-        {
-            $method = $this->getPrivateMethod(A::class, 'getKeyRef');
-
-            $array = ['a' => ['b' => 'c']];
-
-            $this->assertEquals(['exists' => false,], $method->invokeArgs(null, [&$array, '']));
-            $this->assertEquals(['exists' => false,], $method->invokeArgs(null, [&$array, '..']));
-            $this->assertEquals(['exists' => false,], $method->invokeArgs(null, [&$array, 'b']));
-            $this->assertEquals(['exists' => false,], $method->invokeArgs(null, [&$array, 'a.d']));
-            $this->assertEquals([
-                                    'exists'    => true,
-                                    'ref'       => &$array['a']['b'],
-                                    'parentRef' => &$array['a'],
-                                    'key'       => "b",
-                                ], $method->invokeArgs(null, [&$array, 'a.b']));
-            $this->assertEquals([
-                                    'exists'    => true,
-                                    'ref'       => 'Hello world!',
-                                    'parentRef' => ['c' => 'Hello world!'],
-                                    'key'       => "c",
-                                ], $method->invokeArgs(null, [&$array, 'a.b.c', true, 'Hello world!']));
+            $this->assertEquals([], A::splitPath(''));
+            $this->assertEquals([], A::splitPath('...'));
+            $this->assertEquals(['a', 'b', 'c'], A::splitPath('a.b.c'));
+            $this->assertEquals(['a', 'b', 'c'], A::splitPath('a.b..c'));
+            $this->assertEquals(['a\\', 'b', 'c'], A::splitPath('a\\\\.b.c'));
+            $this->assertEquals(['a.b', 'c'], A::splitPath('a\.b.c'));
         }
 
         public function testHasKey() :void

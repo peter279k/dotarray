@@ -23,7 +23,9 @@
   },
   "require-dev": {
     "phpunit/phpunit": "^6.5.3",
-    "codacy/coverage": "dev-master"
+    "codacy/coverage": "dev-master",
+    "voku/arrayy": "^4.0.0",
+    "adbario/php-dot-notation": "^2.0.0"
   },
   "autoload": {
     "psr-4": {
