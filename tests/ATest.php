@@ -91,6 +91,7 @@
             $array = [0 => 0, 'a' => 1, 2 => 1, 'b' => ['c' => ['d' => 1]], 'b.c\\.d' => 'qwe'];
 
             $this->assertFalse(A::hasKey($array, ''));
+            $this->assertFalse(A::hasKey($array, '.....'));
             $this->assertTrue(A::hasKey($array, 0));
             $this->assertTrue(A::hasKey($array, 2));
             $this->assertFalse(A::hasKey($array, 3));
@@ -118,6 +119,7 @@
             $array = [0 => 0, 'a' => 1, 2 => 1, 'b' => ['c' => ['d' => 1]], 'b.c\\.d' => 'qwe'];
 
             $this->assertFalse(A::hasAnyKey($array, ''));
+            $this->assertFalse(A::hasAnyKey($array, '....'));
             $this->assertTrue(A::hasAnyKey($array, 0));
             $this->assertTrue(A::hasAnyKey($array, 2));
             $this->assertFalse(A::hasAnyKey($array, 3));
@@ -168,6 +170,7 @@
 
             $this->assertEquals($array, A::get($array, null));
             $this->assertEquals('default', A::get($array, '', 'default'));
+            $this->assertEquals('default', A::get($array, '....', 'default'));
             $this->assertEquals('qwe',
                                 A::get($array, 'bar.bat'));
             $this->assertEquals(4,
@@ -224,16 +227,12 @@
         {
             $array = [];
 
-            $this->assertEquals([],
-                                A::set($array, '', 'bar'));
-            $this->assertEquals(['foo' => 'bar'],
-                                A::set($array, 'foo', 'bar'));
-            $this->assertEquals(['foo' => ['bar' => 'baz']],
-                                A::set($array, 'foo.bar', 'baz'));
-            $this->assertEquals(['foo' => ['bar' => 'baz']],
-                                A::set($array, ['foo' => 'bar', 'foo.bar' => 'baz']));
-            $this->assertEquals(['foo' => 'bar', 'baz' => ['qwe' => 'bat']],
-                                A::set($array, ['foo' => 'bar', 'baz.qwe' => 'bat']));
+            $this->assertEquals([], A::set($array, '', 'bar'));
+            $this->assertEquals([], A::set($array, '.....', 'bar'));
+            $this->assertEquals(['foo' => 'bar'], A::set($array, 'foo', 'bar'));
+            $this->assertEquals(['foo' => ['bar' => 'baz']], A::set($array, 'foo.bar', 'baz'));
+            $this->assertEquals(['foo' => ['bar' => 'baz']], A::set($array, ['foo' => 'bar', 'foo.bar' => 'baz']));
+            $this->assertEquals(['foo' => 'bar', 'baz' => ['qwe' => 'bat']], A::set($array, ['foo' => 'bar', 'baz.qwe' => 'bat']));
         }
 
         public function testSetException1() :void
