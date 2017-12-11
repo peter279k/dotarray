@@ -271,7 +271,7 @@
          * @param null|string $path
          * @param mixed       $default
          *
-         * @return array|mixed|null
+         * @return mixed
          */
         public static function get(array $array, ?string $path = null, $default = null)
         {
