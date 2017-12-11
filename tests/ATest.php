@@ -472,12 +472,31 @@
             $this->assertEquals([1], A::diff($a1, $a2));
             $this->assertEquals([2, 3], A::diff($a2, $a3));
             $this->assertEquals([5, 6], A::diff($a3, $a2));
+            $this->assertEquals([1 => 5, 2 => 6], A::diff($a3, $a2, true));
         }
 
         public function testDiffException() :void
         {
             $this->expectException(\ArgumentCountError::class);
             A::diff([]);
+        }
+
+        public function testDiffAssoc() :void
+        {
+            $a1 = [1, 2, 3];
+            $a2 = [2, 3, 4];
+            $a3 = [5, 6, 4];
+
+            $this->assertEquals([], A::diffAssoc([], $a2, $a3));
+            $this->assertEquals([1, 2, 3], A::diffAssoc($a1, $a2));
+            $this->assertEquals([2, 3], A::diffAssoc($a2, $a3));
+            $this->assertEquals([5, 6], A::diffAssoc($a3, $a2));
+        }
+
+        public function testDiffAssocException() :void
+        {
+            $this->expectException(\ArgumentCountError::class);
+            A::diffAssoc([]);
         }
 
         public function testSymdiff() :void
@@ -514,11 +533,29 @@
             $this->assertEquals([], A::intersect([], []));
             $this->assertEquals([2, 3, 4], A::intersect($a1, $a2));
             $this->assertEquals([4], A::intersect($a1, $a2, $a3));
+            $this->assertEquals([3 => 4], A::intersect($a1, $a2, $a3, true));
         }
 
         public function testIntersectException() :void
         {
             $this->expectException(\ArgumentCountError::class);
             A::intersect([]);
+        }
+
+        public function testIntersectAssoc() :void
+        {
+            $a1 = [1, 2, 3, 4];
+            $a2 = [2, 5, 3, 4];
+            $a3 = [4, 5, 3, 6];
+
+            $this->assertEquals([], A::intersectAssoc([], []));
+            $this->assertEquals([2 => 3, 3 => 4], A::intersectAssoc($a1, $a2));
+            $this->assertEquals([2 => 3], A::intersectAssoc($a1, $a2, $a3));
+        }
+
+        public function testIntersectAssocException() :void
+        {
+            $this->expectException(\ArgumentCountError::class);
+            A::intersectAssoc([]);
         }
     }
