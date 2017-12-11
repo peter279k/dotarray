@@ -200,6 +200,7 @@
             ];
 
             $this->assertEquals($array, A::delete($array, ''));
+            $this->assertEquals($array, A::delete($array, '....'));
             $this->assertEquals([
                                     'a' => [
                                         'b' => [
