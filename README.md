@@ -17,7 +17,6 @@ a bit shorter:
 $var = A::get($array, 'a.b.c.d', 'default value');
 ```
 
-
 ## Contents
 1. [Requirements](#requrements)
 2. [Installation](#installation)
@@ -59,12 +58,10 @@ $var = A::get($array, 'a.b.c.d', 'default value');
             * [glue](#aglue) - Glue array with provided delimiter.
             * [splitPath](#asplitpath) - Split provided string into an array representing nested keys.
             
----
 
 ## Requrements
 - [PHP](//php.net/) 7.1+
 
----
 
 ## Installation
 #### composer require
@@ -79,15 +76,12 @@ $var = A::get($array, 'a.b.c.d', 'default value');
 ```
 After that run `composer update` or `php composer.phar update`, and you will be able to `A::set($arrays, 'for.some.dotted.magic')`
 
----
-
 ## Classes and methods
 ### xobotyi\A
 A is class containing static methods to perform actions on common arrays and ArrayObjects. Someone will think that A is bad or inconvenient name for class, but i think that it's handy to type `A::` without releasing Shift button =)
 
 
----
-#### Array getting
+### Array getting
 ##### `A::get(array $array [, ?string $path = null [, $default = null]])`
 _**Description:**_ Returns $array's value placed on the $path or $default value if provided $path doesn't exists.
 
@@ -107,8 +101,7 @@ _**Description:**_ Returns first $count element(s) value(s) from the $array.
 _**Description:**_ Returns first $count element(s) keys from the $array.
 
 
----
-#### Array iteration
+### Array iteration
 ##### `A::walk(array $array, callable $callback [, bool $recursive = false])`
 _**Description:**_ Applies $callback to each element of the $array.
 
@@ -141,8 +134,7 @@ _**Description:**_ Tests whether $array is an associative array.
 _**Description:**_ Tests whether $array is a sequential (`[1,2,3,4,...]`) array.
 
 
----
-#### Array modification
+### Array modification
 ##### `A::set(array $array, string|array $path [, $value])`
 _**Description:**_ Sets the $value on the $path.  
 If $path parameter is an array - it's keys will be used as paths and vales as values.
@@ -164,8 +156,7 @@ _**Description:**_ Returns an array in flip order, i.e. keys from array become v
 If a value has several occurrences, the latest key will be used as its value, and all others will be lost.
 
 
----
-#### Arrays interaction
+### Arrays interaction
 ##### `A::diff(array $array, array ...$arrays [, bool $preserveKeys = false])`
 _**Description:**_ Compares $array against ...$arrays and returns the values in $array that are not present in any of the other ...$arrays.  
 If $preserveKeys set to TRUE values keys will be preserved.
@@ -185,8 +176,7 @@ If $preserveKeys set to TRUE values keys will be preserved.
 _**Description:**_ Acts like A::intersect() but the array keys are also used in the comparison.
 
 
----
-#### Array Others
+### Array Others
 ##### `A::splitPath(string $path)`
 _**Description:**_  Splits given string to it's segments according to dot notation.
 
