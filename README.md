@@ -82,243 +82,417 @@ A is class containing static methods to perform actions on common arrays and Arr
 #### Array getting
 
 #### `A::get(array $array [, ?string $path = null [, $default = null]])`
+
 _**Description:**_ Get $array's value related to provided $path, or $default if it doesn't exists.
+
 _**Parameters**_
+
 _**Return Values**_
+
 _**Errors/Exceptions**_
+
 _**Examples**_
+
 _**Notes**_
 
 #### `A::values(array $array [, bool $flatten = false])`
+
 _**Description:**_ Get all values from an $array as a sequential array (without it's keys).
+
 _**Parameters**_
+
 _**Return Values**_
+
 _**Errors/Exceptions**_
+
 _**Examples**_
+
 _**Notes**_
 
 #### `A::last(array $array [, int $count = 1])`
+
 _**Description:**_ Get last $count element(s) value(s) from an $array.
+
 _**Parameters**_
+
 _**Return Values**_
+
 _**Errors/Exceptions**_
+
 _**Examples**_
+
 _**Notes**_
 
 #### `A::lastKeys(array $array [, int $count = 1])`
+
 _**Description:**_ Get last $count element(s) key(s) from an $array.
+
 _**Parameters**_
+
 _**Return Values**_
+
 _**Errors/Exceptions**_
+
 _**Examples**_
+
 _**Notes**_
 
 #### `A::first(array $array [, int $count = 1])`
+
 _**Description:**_ Get first $count element(s) value(s) from an $array.
+
 _**Parameters**_
+
 _**Return Values**_
+
 _**Errors/Exceptions**_
+
 _**Examples**_
+
 _**Notes**_
 
 #### `A::firstKeys(array $array [, int $count = 1])`
+
 _**Description:**_ Get first $count element(s) keys from an $array.
+
 _**Parameters**_
+
 _**Return Values**_
+
 _**Errors/Exceptions**_
+
 _**Examples**_
+
 _**Notes**_
 
 #### Array iteration
 
 #### `A::walk(array $array, callable $callback [, bool $recursive = false])`
+
 _**Description:**_ Apply $callback to each element of an $array.
+
 _**Parameters**_
+
 _**Return Values**_
+
 _**Errors/Exceptions**_
+
 _**Examples**_
+
 _**Notes**_
 
 #### Array checking
 
 #### `A::every(array $array, callable $callback)`
+
 _**Description:**_ Apply $callback to each $array's element and return true if EVERY call returned TRUE.
+
 _**Parameters**_
+
 _**Return Values**_
+
 _**Errors/Exceptions**_
+
 _**Examples**_
+
 _**Notes**_
 
 #### `A::any(array $array, callable $callback)`
+
 _**Description:**_ Apply $callback to each $array's element and return true if ANY call returned TRUE.
+
 _**Parameters**_
+
 _**Return Values**_
+
 _**Errors/Exceptions**_
+
 _**Examples**_
+
 _**Notes**_
 
 #### `A::has(array $array, ...$values)`
+
 _**Description:**_ Test whether $array contains ALL of provided ...$values.
+
 _**Parameters**_
+
 _**Return Values**_
+
 _**Errors/Exceptions**_
+
 _**Examples**_
+
 _**Notes**_
 
 #### `A::hasAny(array $array, ...$values)`
+
 _**Description:**_ Test whether $array contains ANY of provided ...$values.
+
 _**Parameters**_
+
 _**Return Values**_
+
 _**Errors/Exceptions**_
+
 _**Examples**_
+
 _**Notes**_
 
 #### `A::hasKey(array $array, string ...$paths)`
+
 _**Description:**_ Test whether $array has ALL of provided ...paths.
+
 _**Parameters**_
+
 _**Return Values**_
+
 _**Errors/Exceptions**_
+
 _**Examples**_
+
 _**Notes**_
 
 #### `A::hasAnyKey(array $array, string ...$paths)`
+
 _**Description:**_ Test whether $array has ANY of provided ...paths.
+
 _**Parameters**_
+
 _**Return Values**_
+
 _**Errors/Exceptions**_
+
 _**Examples**_
+
 _**Notes**_
 
 #### `A::arrayKeyExists(array &$array, string $key)`
+
 _**Description:**_ The faster analog to \array_key_exists()
+
 _**Parameters**_
+
 _**Return Values**_
+
 _**Errors/Exceptions**_
+
 _**Examples**_
+
 _**Notes**_
 
 #### `A::isAssoc(array $array)`
+
 _**Description:**_ Test whether $array is an associative array.
+
 _**Parameters**_
+
 _**Return Values**_
+
 _**Errors/Exceptions**_
+
 _**Examples**_
+
 _**Notes**_
 
 #### `A::isSequential(array $array)`
+
 _**Description:**_ Test whether $array is a sequential (`[1,2,3,4,...]`) array.
+
 _**Parameters**_
+
 _**Return Values**_
+
 _**Errors/Exceptions**_
+
 _**Examples**_
+
 _**Notes**_
 
 #### Array modification
 
 #### `A::set()`
+
 _**Description:**_
+
 _**Parameters**_
+
 _**Return Values**_
+
 _**Errors/Exceptions**_
+
 _**Examples**_
+
 _**Notes**_
 
 #### `A::append()`
+
 _**Description:**_
+
 _**Parameters**_
+
 _**Return Values**_
+
 _**Errors/Exceptions**_
+
 _**Examples**_
+
 _**Notes**_
 
 #### `A::prepend()`
+
 _**Description:**_
+
 _**Parameters**_
+
 _**Return Values**_
+
 _**Errors/Exceptions**_
+
 _**Examples**_
+
 _**Notes**_
 
 #### `A::delete()`
+
 _**Description:**_
+
 _**Parameters**_
+
 _**Return Values**_
+
 _**Errors/Exceptions**_
+
 _**Examples**_
+
 _**Notes**_
 
 #### `A::chunk()`
+
 _**Description:**_
+
 _**Parameters**_
+
 _**Return Values**_
+
 _**Errors/Exceptions**_
+
 _**Examples**_
+
 _**Notes**_
 
 #### `A::flip()`
+
 _**Description:**_
+
 _**Parameters**_
+
 _**Return Values**_
+
 _**Errors/Exceptions**_
+
 _**Examples**_
+
 _**Notes**_
 
 #### Arrays interaction
 
 #### `A::diff()`
+
 _**Description:**_
+
 _**Parameters**_
+
 _**Return Values**_
+
 _**Errors/Exceptions**_
+
 _**Examples**_
+
 _**Notes**_
 
 #### `A::symdiff()`
+
 _**Description:**_
+
 _**Parameters**_
+
 _**Return Values**_
+
 _**Errors/Exceptions**_
+
 _**Examples**_
+
 _**Notes**_
 
 #### `A::diffAssoc()`
+
 _**Description:**_
+
 _**Parameters**_
+
 _**Return Values**_
+
 _**Errors/Exceptions**_
+
 _**Examples**_
+
 _**Notes**_
 
 #### `A::intersect()`
+
 _**Description:**_
+
 _**Parameters**_
+
 _**Return Values**_
+
 _**Errors/Exceptions**_
+
 _**Examples**_
+
 _**Notes**_
 
 #### `A::intersectAssoc()`
+
 _**Description:**_
+
 _**Parameters**_
+
 _**Return Values**_
+
 _**Errors/Exceptions**_
+
 _**Examples**_
+
 _**Notes**_
 
 #### Array Others
 
 #### `A::splitPath()`
+
 _**Description:**_
+
 _**Parameters**_
+
 _**Return Values**_
+
 _**Errors/Exceptions**_
+
 _**Examples**_
+
 _**Notes**_
 
 #### `A::glue()`
+
 _**Description:**_
+
 _**Parameters**_
+
 _**Return Values**_
+
 _**Errors/Exceptions**_
+
 _**Examples**_
-_**Notes*
+
+_**Notes**_
