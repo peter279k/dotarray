@@ -62,22 +62,22 @@ ___
 - [firstKeys](#afirstkeys) - Get key(s) of first elements(s).
             
             
-##### `A::get(array $array [, ?string $path = null [, $default = null]])`
+##### `A::get(array $array [, ?string $path = null [, $default = null]])`  
 _**Description:**_ Returns $array's value placed on the $path or $default value if provided $path doesn't exists.
 
-##### `A::values(array $array [, bool $flatten = false])`
+##### `A::values(array $array [, bool $flatten = false])`  
 _**Description:**_ Returns all the values from the $array as a sequential array (without it's keys).
 
-##### `A::last(array $array [, int $count = 1])`
+##### `A::last(array $array [, int $count = 1])`  
 _**Description:**_ Returns last $count element(s) value(s) from the $array.
 
-##### `A::lastKeys(array $array [, int $count = 1])`
+##### `A::lastKeys(array $array [, int $count = 1])`  
 _**Description:**_ Returns last $count element(s) key(s) from the $array.
 
-##### `A::first(array $array [, int $count = 1])`
+##### `A::first(array $array [, int $count = 1])`  
 _**Description:**_ Returns first $count element(s) value(s) from the $array.
 
-##### `A::firstKeys(array $array [, int $count = 1])`
+##### `A::firstKeys(array $array [, int $count = 1])`  
 _**Description:**_ Returns first $count element(s) keys from the $array.
 
 
@@ -86,7 +86,7 @@ ___
 - [walk](#awalk) - Execute a provided function once for each array element
 
 
-##### `A::walk(array $array, callable $callback [, bool $recursive = false])`
+##### `A::walk(array $array, callable $callback [, bool $recursive = false])`  
 _**Description:**_ Applies $callback to each element of the $array.
 
 
@@ -103,31 +103,31 @@ ___
 - [isSequential](#aissequential) - Check whether array is sequential, e.g. has only int keys placed in ascending order.
             
 
-##### `A::every(array $array, callable $callback)`
+##### `A::every(array $array, callable $callback)`  
 _**Description:**_ Applies $callback to each $array's element and returns true if EVERY call returned TRUE.
 
-##### `A::any(array $array, callable $callback)`
+##### `A::any(array $array, callable $callback)`  
 _**Description:**_ Applies $callback to each $array's element and returns true if ANY call returned TRUE.
 
-##### `A::has(array $array, ...$values)`
+##### `A::has(array $array, ...$values)`  
 _**Description:**_ Tests whether $array contains ALL of provided ...$values.
 
-##### `A::hasAny(array $array, ...$values)`
+##### `A::hasAny(array $array, ...$values)`  
 _**Description:**_ Tests whether $array contains ANY of provided ...$values.
 
-##### `A::hasKey(array $array, string ...$paths)`
+##### `A::hasKey(array $array, string ...$paths)`  
 _**Description:**_ Tests whether $array has ALL of provided ...paths.
 
-##### `A::hasAnyKey(array $array, string ...$paths)`
+##### `A::hasAnyKey(array $array, string ...$paths)`  
 _**Description:**_ Tests whether $array has ANY of provided ...paths.
 
-##### `A::arrayKeyExists(array &$array, string $key)`
+##### `A::arrayKeyExists(array &$array, string $key)`  
 _**Description:**_ The faster analog to \array_key_exists().
 
-##### `A::isAssoc(array $array)`
+##### `A::isAssoc(array $array)`  
 _**Description:**_ Tests whether $array is an associative array.
 
-##### `A::isSequential(array $array)`
+##### `A::isSequential(array $array)`  
 _**Description:**_ Tests whether $array is a sequential (`[1,2,3,4,...]`) array.
 
 
@@ -139,27 +139,31 @@ ___
 - [delete](#adelete) - Delete an element with provided keys(s).
 - [chunk](#achunk) - Split array into a chunks of provided size.
 - [flip](#aflip) - Swap keys and values.
+- [changeKeyCase](#achangekeycase) - Change the case of all keys in an array.
 
 
-##### `A::set(array $array, string|array $path [, $value])`
+##### `A::set(array $array, string|array $path [, $value])`  
 _**Description:**_ Sets the $value on the $path.  
 If $path parameter is an array - it's keys will be used as paths and vales as values.
 
-##### `A::append(array $array, ...$values)`
+##### `A::append(array $array, ...$values)`  
 _**Description:**_ Adds passed ...$values to the end of $array.
 
-##### `A::prepend(array $array, ...$values)`
+##### `A::prepend(array $array, ...$values)`  
 _**Description:**_ Adds passed ...$values to the beginning of $array.
 
-##### `A::delete(array $array, string ...$paths)`
+##### `A::delete(array $array, string ...$paths)`  
 _**Description:**_ Deletes $array's items placed on the provided ...$paths.
 
-##### `A::chunk(array $array, int $chunkSize [, bool $preserveKeys = false])`
+##### `A::chunk(array $array, int $chunkSize [, bool $preserveKeys = false])`  
 _**Description:**_ Chunks an array into arrays with $chunkSize elements. The last chunk may contain less than $chunkSize elements.
 
-##### `A::flip()`
+##### `A::flip(array $array)`  
 _**Description:**_ Returns an array in flip order, i.e. keys from array become values and values from array become keys.  
 If a value has several occurrences, the latest key will be used as its value, and all others will be lost.
+
+##### `A::changeKeyCase(array $array [, int $case = CASE_LOWER [, bool $recursive = false]])`  
+_**Description:**_ Returns an array with all keys from $array lower- or upper- cased.
 
 
 ___
@@ -171,22 +175,22 @@ ___
 - [intersectAssoc](#aintersectassoc) - Compute intersection of provided arrays with additional index check.
 
 
-##### `A::diff(array $array, array ...$arrays [, bool $preserveKeys = false])`
+##### `A::diff(array $array, array ...$arrays [, bool $preserveKeys = false])`  
 _**Description:**_ Compares $array against ...$arrays and returns the values in $array that are not present in any of the other ...$arrays.  
 If $preserveKeys set to TRUE values keys will be preserved.
 
-##### `A::symdiff(array $array, array ...$arrays [, bool $softDiff = false])`
+##### `A::symdiff(array $array, array ...$arrays [, bool $softDiff = false])`  
 _**Description:**_ Returns symmetric difference between arrays (values not presented in all the arrays simultaneously).  
 If $softDiff is set to TRUE, result will include only values that has no intersection with other arrays.
 
-##### `A::diffAssoc(array $array, array ...$arrays)`
+##### `A::diffAssoc(array $array, array ...$arrays)`  
 _**Description:**_ Acts like A::diff() but the array keys are also used in the comparison.
 
-##### `A::intersect(array $array, array ...$arrays [, bool $preserveKeys = false])`
+##### `A::intersect(array $array, array ...$arrays [, bool $preserveKeys = false])`  
 _**Description:**_  Compares $array against ...$arrays and returns all the values of $array that are present in all ...$arrays.
 If $preserveKeys set to TRUE values keys will be preserved.
 
-##### `A::intersectAssoc(array $array, array ...$arrays)`
+##### `A::intersectAssoc(array $array, array ...$arrays)`  
 _**Description:**_ Acts like A::intersect() but the array keys are also used in the comparison.
 
 
@@ -196,8 +200,8 @@ ___
 - [splitPath](#asplitpath) - Split provided string into an array representing nested keys.
 
 
-##### `A::splitPath(string $path)`
+##### `A::splitPath(string $path)`  
 _**Description:**_  Splits given string to it's segments according to dot notation.
 
-##### `A::glue(array $array, string $glue = '')`
+##### `A::glue(array $array, string $glue = '')`  
 _**Description:**_ Glues $array items into a string, with $glue as delimiter.

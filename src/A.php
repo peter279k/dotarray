@@ -823,4 +823,32 @@
 
             return \array_intersect_assoc($array, ...$arrays);
         }
+
+        /**
+         * Change $array's keys case
+         *
+         * @param array $array
+         * @param int   $case
+         * @param bool  $recursive
+         *
+         * @return array
+         */
+        public static function changeKeyCase(array $array, int $case = CASE_LOWER, bool $recursive = false) :array
+        {
+            if (empty($array)) {
+                return $array;
+            }
+
+            $array = \array_change_key_case($array, $case);
+
+            if ($recursive) {
+                foreach ($array as &$item) {
+                    if (!empty($item) && is_array($item)) {
+                        $item = self::changeKeyCase($item, $case, true);
+                    }
+                }
+            }
+
+            return $array;
+        }
     }

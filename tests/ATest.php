@@ -514,4 +514,14 @@
             $this->expectException(\ArgumentCountError::class);
             A::intersectAssoc([]);
         }
+
+        public function testChangeKeyCase() :void
+        {
+            $arr = ['a' => 1, 1 => 'B', 'C' => 3, 'D' => ['E' => 1, 'f' => 2]];
+
+            $this->assertEquals([], A::changeKeyCase([]));
+            $this->assertEquals(['a' => 1, 1 => 'B', 'c' => 3, 'd' => ['E' => 1, 'f' => 2]], A::changeKeyCase($arr, CASE_LOWER));
+            $this->assertEquals(['A' => 1, 1 => 'B', 'C' => 3, 'D' => ['E' => 1, 'f' => 2]], A::changeKeyCase($arr, CASE_UPPER));
+            $this->assertEquals(['a' => 1, 1 => 'B', 'c' => 3, 'd' => ['e' => 1, 'f' => 2]], A::changeKeyCase($arr, CASE_LOWER, true));
+        }
     }
