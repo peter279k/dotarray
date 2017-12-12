@@ -34,8 +34,8 @@ $var = A::get($array, 'a.b.c.d', 'default value');
         * [Checking](#array-checking)
             * [every](#aevery) - Test whether all elements in the array pass the test implemented by the provided function.
             * [any](#aany) - Test whether at least one element in the array passes the test implemented by the provided function.
-            * [has](#ahas) - Test whether at least one provided value presented in array. 
-            * [hasAny](#ahasany) - Check whether all provided values presented in array.
+            * [has](#ahas) - Check whether all provided values presented in array.
+            * [hasAny](#ahasany) - Test whether at least one provided value presented in array. 
             * [hasKey](#ahashey) - Check whether all provided values presented in array as key.
             * [hasAnyKey](#ahasanykey) - Check whether at least one provided value presented in array as key. 
             * [arrayKeyExists](#aarraykeyexists) - Check whether array has provided key.
@@ -81,244 +81,244 @@ A is class containing static methods to perform actions on common arrays and Arr
 
 #### Array getting
 
-#### `A::get()`
-##### *Description*
-##### *Parameters*
-##### *Return Values*
-##### *Errors/Exceptions*
-##### *Examples*
-##### *Notes*
+#### `A::get(array $array [, ?string $path = null [, $default = null]])`
+_**Description:**_ Get $array's value related to provided $path, or $default if it doesn't exists.
+_**Parameters**_
+_**Return Values**_
+_**Errors/Exceptions**_
+_**Examples**_
+_**Notes**_
 
-#### `A::values()`
-##### *Description*
-##### *Parameters*
-##### *Return Values*
-##### *Errors/Exceptions*
-##### *Examples*
-##### *Notes*
+#### `A::values(array $array [, bool $flatten = false])`
+_**Description:**_ Get all values from an $array as a sequential array (without it's keys).
+_**Parameters**_
+_**Return Values**_
+_**Errors/Exceptions**_
+_**Examples**_
+_**Notes**_
 
-#### `A::last()`
-##### *Description*
-##### *Parameters*
-##### *Return Values*
-##### *Errors/Exceptions*
-##### *Examples*
-##### *Notes*
+#### `A::last(array $array [, int $count = 1])`
+_**Description:**_ Get last $count element(s) value(s) from an $array.
+_**Parameters**_
+_**Return Values**_
+_**Errors/Exceptions**_
+_**Examples**_
+_**Notes**_
 
-#### `A::lastKeys()`
-##### *Description*
-##### *Parameters*
-##### *Return Values*
-##### *Errors/Exceptions*
-##### *Examples*
-##### *Notes*
+#### `A::lastKeys(array $array [, int $count = 1])`
+_**Description:**_ Get last $count element(s) key(s) from an $array.
+_**Parameters**_
+_**Return Values**_
+_**Errors/Exceptions**_
+_**Examples**_
+_**Notes**_
 
-#### `A::first()`
-##### *Description*
-##### *Parameters*
-##### *Return Values*
-##### *Errors/Exceptions*
-##### *Examples*
-##### *Notes*
+#### `A::first(array $array [, int $count = 1])`
+_**Description:**_ Get first $count element(s) value(s) from an $array.
+_**Parameters**_
+_**Return Values**_
+_**Errors/Exceptions**_
+_**Examples**_
+_**Notes**_
 
-#### `A::firstKeys()`
-##### *Description*
-##### *Parameters*
-##### *Return Values*
-##### *Errors/Exceptions*
-##### *Examples*
-##### *Notes*
+#### `A::firstKeys(array $array [, int $count = 1])`
+_**Description:**_ Get first $count element(s) keys from an $array.
+_**Parameters**_
+_**Return Values**_
+_**Errors/Exceptions**_
+_**Examples**_
+_**Notes**_
 
 #### Array iteration
 
-#### `A::walk()`
-##### *Description*
-##### *Parameters*
-##### *Return Values*
-##### *Errors/Exceptions*
-##### *Examples*
-##### *Notes*
+#### `A::walk(array $array, callable $callback [, bool $recursive = false])`
+_**Description:**_ Apply $callback to each element of an $array.
+_**Parameters**_
+_**Return Values**_
+_**Errors/Exceptions**_
+_**Examples**_
+_**Notes**_
 
 #### Array checking
 
-#### `A::every()`
-##### *Description*
-##### *Parameters*
-##### *Return Values*
-##### *Errors/Exceptions*
-##### *Examples*
-##### *Notes*
+#### `A::every(array $array, callable $callback)`
+_**Description:**_ Apply $callback to each $array's element and return true if EVERY call returned TRUE.
+_**Parameters**_
+_**Return Values**_
+_**Errors/Exceptions**_
+_**Examples**_
+_**Notes**_
 
-#### `A::any()`
-##### *Description*
-##### *Parameters*
-##### *Return Values*
-##### *Errors/Exceptions*
-##### *Examples*
-##### *Notes*
+#### `A::any(array $array, callable $callback)`
+_**Description:**_ Apply $callback to each $array's element and return true if ANY call returned TRUE.
+_**Parameters**_
+_**Return Values**_
+_**Errors/Exceptions**_
+_**Examples**_
+_**Notes**_
 
-#### `A::has()`
-##### *Description*
-##### *Parameters*
-##### *Return Values*
-##### *Errors/Exceptions*
-##### *Examples*
-##### *Notes*
+#### `A::has(array $array, ...$values)`
+_**Description:**_ Test whether $array contains ALL of provided ...$values.
+_**Parameters**_
+_**Return Values**_
+_**Errors/Exceptions**_
+_**Examples**_
+_**Notes**_
 
-#### `A::hasAny()`
-##### *Description*
-##### *Parameters*
-##### *Return Values*
-##### *Errors/Exceptions*
-##### *Examples*
-##### *Notes*
+#### `A::hasAny(array $array, ...$values)`
+_**Description:**_ Test whether $array contains ANY of provided ...$values.
+_**Parameters**_
+_**Return Values**_
+_**Errors/Exceptions**_
+_**Examples**_
+_**Notes**_
 
-#### `A::hasKey()`
-##### *Description*
-##### *Parameters*
-##### *Return Values*
-##### *Errors/Exceptions*
-##### *Examples*
-##### *Notes*
+#### `A::hasKey(array $array, string ...$paths)`
+_**Description:**_ Test whether $array has ALL of provided ...paths.
+_**Parameters**_
+_**Return Values**_
+_**Errors/Exceptions**_
+_**Examples**_
+_**Notes**_
 
-#### `A::hasAnyKey()`
-##### *Description*
-##### *Parameters*
-##### *Return Values*
-##### *Errors/Exceptions*
-##### *Examples*
-##### *Notes*
+#### `A::hasAnyKey(array $array, string ...$paths)`
+_**Description:**_ Test whether $array has ANY of provided ...paths.
+_**Parameters**_
+_**Return Values**_
+_**Errors/Exceptions**_
+_**Examples**_
+_**Notes**_
 
-#### `A::arrayKeyExists()`
-##### *Description*
-##### *Parameters*
-##### *Return Values*
-##### *Errors/Exceptions*
-##### *Examples*
-##### *Notes*
+#### `A::arrayKeyExists(array &$array, string $key)`
+_**Description:**_ The faster analog to \array_key_exists()
+_**Parameters**_
+_**Return Values**_
+_**Errors/Exceptions**_
+_**Examples**_
+_**Notes**_
 
-#### `A::isAssoc()`
-##### *Description*
-##### *Parameters*
-##### *Return Values*
-##### *Errors/Exceptions*
-##### *Examples*
-##### *Notes*
+#### `A::isAssoc(array $array)`
+_**Description:**_ Test whether $array is an associative array.
+_**Parameters**_
+_**Return Values**_
+_**Errors/Exceptions**_
+_**Examples**_
+_**Notes**_
 
-#### `A::isSequential()`
-##### *Description*
-##### *Parameters*
-##### *Return Values*
-##### *Errors/Exceptions*
-##### *Examples*
-##### *Notes*
+#### `A::isSequential(array $array)`
+_**Description:**_ Test whether $array is a sequential (`[1,2,3,4,...]`) array.
+_**Parameters**_
+_**Return Values**_
+_**Errors/Exceptions**_
+_**Examples**_
+_**Notes**_
 
 #### Array modification
 
 #### `A::set()`
-##### *Description*
-##### *Parameters*
-##### *Return Values*
-##### *Errors/Exceptions*
-##### *Examples*
-##### *Notes*
+_**Description:**_
+_**Parameters**_
+_**Return Values**_
+_**Errors/Exceptions**_
+_**Examples**_
+_**Notes**_
 
 #### `A::append()`
-##### *Description*
-##### *Parameters*
-##### *Return Values*
-##### *Errors/Exceptions*
-##### *Examples*
-##### *Notes*
+_**Description:**_
+_**Parameters**_
+_**Return Values**_
+_**Errors/Exceptions**_
+_**Examples**_
+_**Notes**_
 
 #### `A::prepend()`
-##### *Description*
-##### *Parameters*
-##### *Return Values*
-##### *Errors/Exceptions*
-##### *Examples*
-##### *Notes*
+_**Description:**_
+_**Parameters**_
+_**Return Values**_
+_**Errors/Exceptions**_
+_**Examples**_
+_**Notes**_
 
 #### `A::delete()`
-##### *Description*
-##### *Parameters*
-##### *Return Values*
-##### *Errors/Exceptions*
-##### *Examples*
-##### *Notes*
+_**Description:**_
+_**Parameters**_
+_**Return Values**_
+_**Errors/Exceptions**_
+_**Examples**_
+_**Notes**_
 
 #### `A::chunk()`
-##### *Description*
-##### *Parameters*
-##### *Return Values*
-##### *Errors/Exceptions*
-##### *Examples*
-##### *Notes*
+_**Description:**_
+_**Parameters**_
+_**Return Values**_
+_**Errors/Exceptions**_
+_**Examples**_
+_**Notes**_
 
 #### `A::flip()`
-##### *Description*
-##### *Parameters*
-##### *Return Values*
-##### *Errors/Exceptions*
-##### *Examples*
-##### *Notes*
+_**Description:**_
+_**Parameters**_
+_**Return Values**_
+_**Errors/Exceptions**_
+_**Examples**_
+_**Notes**_
 
 #### Arrays interaction
 
 #### `A::diff()`
-##### *Description*
-##### *Parameters*
-##### *Return Values*
-##### *Errors/Exceptions*
-##### *Examples*
-##### *Notes*
+_**Description:**_
+_**Parameters**_
+_**Return Values**_
+_**Errors/Exceptions**_
+_**Examples**_
+_**Notes**_
 
 #### `A::symdiff()`
-##### *Description*
-##### *Parameters*
-##### *Return Values*
-##### *Errors/Exceptions*
-##### *Examples*
-##### *Notes*
+_**Description:**_
+_**Parameters**_
+_**Return Values**_
+_**Errors/Exceptions**_
+_**Examples**_
+_**Notes**_
 
 #### `A::diffAssoc()`
-##### *Description*
-##### *Parameters*
-##### *Return Values*
-##### *Errors/Exceptions*
-##### *Examples*
-##### *Notes*
+_**Description:**_
+_**Parameters**_
+_**Return Values**_
+_**Errors/Exceptions**_
+_**Examples**_
+_**Notes**_
 
 #### `A::intersect()`
-##### *Description*
-##### *Parameters*
-##### *Return Values*
-##### *Errors/Exceptions*
-##### *Examples*
-##### *Notes*
+_**Description:**_
+_**Parameters**_
+_**Return Values**_
+_**Errors/Exceptions**_
+_**Examples**_
+_**Notes**_
 
 #### `A::intersectAssoc()`
-##### *Description*
-##### *Parameters*
-##### *Return Values*
-##### *Errors/Exceptions*
-##### *Examples*
-##### *Notes*
+_**Description:**_
+_**Parameters**_
+_**Return Values**_
+_**Errors/Exceptions**_
+_**Examples**_
+_**Notes**_
 
 #### Array Others
 
 #### `A::splitPath()`
-##### *Description*
-##### *Parameters*
-##### *Return Values*
-##### *Errors/Exceptions*
-##### *Examples*
-##### *Notes*
+_**Description:**_
+_**Parameters**_
+_**Return Values**_
+_**Errors/Exceptions**_
+_**Examples**_
+_**Notes**_
 
 #### `A::glue()`
-##### *Description*
-##### *Parameters*
-##### *Return Values*
-##### *Errors/Exceptions*
-##### *Examples*
-##### *Notes*
+_**Description:**_
+_**Parameters**_
+_**Return Values**_
+_**Errors/Exceptions**_
+_**Examples**_
+_**Notes*

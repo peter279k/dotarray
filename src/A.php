@@ -10,7 +10,7 @@
     class A
     {
         /**
-         * Apply $callback to each $array's element and returns true if ALL returns TRUE.
+         * Apply $callback to each $array's element and return true if EVERY call returned TRUE.
          * $callback has item value as 1'st parameter and item key as 2'nd.
          * Works on lazy algorithm, so it will return FALSE on first non-TRUE $callback's return.
          *
@@ -31,7 +31,7 @@
         }
 
         /**
-         * Apply $callback to each $array's element and returns true if ANY returns TRUE.
+         * Apply $callback to each $array's element and return true if ANY call returned TRUE.
          * $callback has item value as 1'st parameter and item key as 2'nd.
          * Works on lazy algorithm, so it will return TRUE on first TRUE $callback's return.
          *
@@ -52,7 +52,7 @@
         }
 
         /**
-         * Check if $array contains ALL of $value
+         * Test whether $array contains ALL of provided ...$values
          *
          * IMPORTANT!
          * This function uses strict comparison
@@ -83,7 +83,7 @@
         }
 
         /**
-         * Check if $array contains ANY of $value.
+         * Test whether $array contains ANY of provided ...$values
          *
          * IMPORTANT!
          * This function uses strict comparison.
@@ -159,7 +159,7 @@
         }
 
         /**
-         * Check if $array has ALL of $paths.
+         * Test whether $array has ALL of provided ...paths.
          * Works on lazy algorithm, so it will return FALSE on first non-existing $path.
          * Empty paths will be processed as non-existent.
          *
@@ -211,7 +211,7 @@
         }
 
         /**
-         * Check if $array has ANY of $paths.
+         * Test whether $array has ANY of provided ...paths.
          * Works on lazy algorithm, so it will return TRUE on first existing $path.
          * Empty paths will be processed as non-existent.
          *
@@ -414,7 +414,7 @@
         }
 
         /**
-         * Check whether $array is an associative array.
+         * Test whether $array is an associative array.
          *
          * @param array $array
          *
@@ -528,7 +528,7 @@
         }
 
         /**
-         * Return last $count element(s) value from an $array.
+         * Return last $count element(s) value(s) from an $array.
          * If $array is empty - empty array will be returned,
          * If $count == 1 - last item value will be returned,
          * If $count > 1 - array with $count last items value will be returned.
@@ -557,7 +557,7 @@
         }
 
         /**
-         * Return last $count element(s) key from an $array.
+         * Return last $count element(s) key(s) from an $array.
          * If $array is empty - empty array will be returned,
          * If $count == 1 - last item key will be returned,
          * If $count > 1 - array with $count last items keys will be returned.
@@ -588,7 +588,7 @@
         }
 
         /**
-         * Return first $count element(s) value from an $array.
+         * Return first $count element(s) value(s) from an $array.
          * If $array is empty - empty array will be returned,
          * If $count == 1 - first item value will be returned,
          * If $count > 1 - array with $count first items value will be returned.
