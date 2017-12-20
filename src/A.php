@@ -1,4 +1,6 @@
 <?php
+    declare(strict_types = 1);
+
     /**
      * @Author  Anton Zinovyev
      * @link    https://github.com/xobotyi/dotarray
