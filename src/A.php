@@ -32,7 +32,7 @@ class A
      *
      * @throws \Error
      */
-    public static function SetDefaultSeparator(string $separator): void
+    public static function setDefaultSeparator(string $separator): void
     {
         if (!$separator) {
             throw new \Error('Argument 1 passed to xobotyi\A::SetDefaultSeparator() must be a valuable string');
@@ -46,17 +46,17 @@ class A
      *
      * @return string
      */
-    public static function GetDefaultSeparator(): string
+    public static function getDefaultSeparator(): string
     {
         return self::$separator;
     }
 
-    public static function SetSafeSeparationMode(bool $enabled): void
+    public static function setSafeSeparationMode(bool $enabled): void
     {
         self::$safeSeparationMode = $enabled;
     }
 
-    public static function IsSafeSeparationMode(): bool
+    public static function isSafeSeparationMode(): bool
     {
         return self::$safeSeparationMode;
     }
@@ -210,11 +210,11 @@ class A
             foreach ($segments as &$segment) {
                 $segment = stripslashes($segment);
             }
-        } else {
-            $segments = explode(self::$separator, $path);
+
+            return $segments;
         }
 
-        return $segments;
+        return explode(self::$separator, $path);
     }
 
     /**
