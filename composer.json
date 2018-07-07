@@ -30,5 +30,10 @@
     "psr-4": {
       "xobotyi\\": "src"
     }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "xobotyi\\tests\\": "tests"
+    }
   }
 }

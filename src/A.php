@@ -34,8 +34,8 @@ class A
      */
     public static function setDefaultSeparator(string $separator): void
     {
-        if (!$separator) {
-            throw new \Error('Argument 1 passed to xobotyi\A::SetDefaultSeparator() must be a valuable string');
+        if ($separator === '') {
+            throw new \InvalidArgumentException('Argument 1 passed to xobotyi\A::SetDefaultSeparator() must be a valuable string');
         }
 
         self::$separator = $separator;
@@ -194,7 +194,7 @@ class A
             return [];
         }
 
-        $safe = $safe === null ? self::$safeSeparationMode : $safe;
+        $safe = ($safe === null ? self::$safeSeparationMode : $safe);
 
         if ($safe) {
             $segments = preg_split('~\\\\' . self::$separator . '(*SKIP)(*F)|\.~s', $path, -1, PREG_SPLIT_NO_EMPTY);

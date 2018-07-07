@@ -76,7 +76,7 @@ class ATest extends TestCase
         A::hasAny([]);
     }
 
-    public function testArrayKeyExists()
+    public function testArrayKeyExists(): void
     {
         $array = ['hello' => 'world'];
 
@@ -84,18 +84,28 @@ class ATest extends TestCase
         $this->assertTrue(A::arrayKeyExists($array, 'hello'));
     }
 
-    public function testSplitPath()
+    public function splitPathDataProvider(): array
     {
-        $this->assertEquals([], A::splitPath(''));
-        $this->assertEquals([], A::splitPath('...'));
-        $this->assertEquals(['a', 'b', 'c'], A::splitPath('a.b.c'));
-        $this->assertEquals(['a', 'b', 'c'], A::splitPath('a.b.c', false));
-        $this->assertEquals(['a', 'b', 'c'], A::splitPath('a.b..c'));
-        $this->assertEquals(['a', 'b', '', 'c'], A::splitPath('a.b..c', false));
-        $this->assertEquals(['a\\', 'b', 'c'], A::splitPath('a\\\\.b.c'));
-        $this->assertEquals(['a\\\\', 'b', 'c'], A::splitPath('a\\\\.b.c', false));
-        $this->assertEquals(['a.b', 'c'], A::splitPath('a\.b.c'));
-        $this->assertEquals(['a\\', 'b', 'c'], A::splitPath('a\.b.c', false));
+        return [
+            [[], ''],
+            [[], '...'],
+            [['a', 'b', 'c'], 'a.b.c'],
+            [['a', 'b', 'c'], 'a.b.c', false],
+            [['a', 'b', 'c'], 'a.b..c'],
+            [['a', 'b', '', 'c'], 'a.b..c', false],
+            [['a\\', 'b', 'c'], 'a\\\\.b.c'],
+            [['a\\\\', 'b', 'c'], 'a\\\\.b.c', false],
+            [['a.b', 'c'], 'a\.b.c'],
+            [['a\\', 'b', 'c'], 'a\.b.c', false],
+        ];
+    }
+
+    /**
+     * @dataProvider splitPathDataProvider
+     */
+    public function testSplitPath($expectedArray, $path, $safe = null): void
+    {
+        $this->assertEquals($expectedArray, A::splitPath($path, $safe));
     }
 
     public function testHasKey(): void
@@ -346,12 +356,22 @@ class ATest extends TestCase
         $this->assertEquals([1, 2, 1, 2, 3], A::values($array, true));
     }
 
-    public function testLast(): void
+    public function lastDataProvider(): array
     {
-        $this->assertEquals([], A::last([]));
-        $this->assertEquals(false, A::last([false]));
-        $this->assertEquals([2, 3], A::last([1, 2, 3], 2));
-        $this->assertEquals([2, 3], A::last(['a' => 1, 'b' => 2, 'c' => 3], 2));
+        return [
+            [[], []],
+            [false, [false]],
+            [[2, 3], [1, 2, 3], 2],
+            [[2, 3], ['a' => 1, 'b' => 2, 'c' => 3], 2],
+        ];
+    }
+
+    /**
+     * @dataProvider lastDataProvider
+     */
+    public function testLast($expectedArray, $array, $count = 1): void
+    {
+        $this->assertEquals($expectedArray, A::last($array, $count));
     }
 
     public function testLastException(): void
@@ -360,12 +380,22 @@ class ATest extends TestCase
         A::last([], -1);
     }
 
-    public function testLastKeys(): void
+    public function lastKeysDataProvider(): array
     {
-        $this->assertEquals([], A::lastKeys([]));
-        $this->assertEquals(0, A::lastKeys([false]));
-        $this->assertEquals([1, 2], A::lastKeys([1, 2, 3], 2));
-        $this->assertEquals(['b', 'c'], A::lastKeys(['a' => 1, 'b' => 2, 'c' => 3], 2));
+        return [
+            [[], []],
+            [0, [false]],
+            [[1, 2], [1, 2, 3], 2],
+            [['b', 'c'], ['a' => 1, 'b' => 2, 'c' => 3], 2],
+        ];
+    }
+
+    /**
+     * @dataProvider lastKeysDataProvider
+     */
+    public function testLastKeys($expectedArray, $array, $count = 1): void
+    {
+        $this->assertEquals($expectedArray, A::lastKeys($array, $count));
     }
 
     public function testLastKeysException(): void
@@ -374,12 +404,22 @@ class ATest extends TestCase
         A::lastKeys([], -1);
     }
 
-    public function testFirst(): void
+    public function firstDataProvider(): array
     {
-        $this->assertEquals([], A::first([]));
-        $this->assertEquals(false, A::first([false]));
-        $this->assertEquals([1, 2], A::first([1, 2, 3], 2));
-        $this->assertEquals([1, 2], A::first(['a' => 1, 'b' => 2, 'c' => 3], 2));
+        return [
+            [[], []],
+            [false, [false]],
+            [[1, 2], [1, 2, 3], 2],
+            [[1, 2], ['a' => 1, 'b' => 2, 'c' => 3], 2],
+        ];
+    }
+
+    /**
+     * @dataProvider firstDataProvider
+     */
+    public function testFirst($expectedArray, $array, $count = 1): void
+    {
+        $this->assertEquals($expectedArray, A::first($array, $count));
     }
 
     public function testFirstException(): void
@@ -388,12 +428,22 @@ class ATest extends TestCase
         A::first([], -1);
     }
 
-    public function testFirstKeys(): void
+    public function firstKeyDataProvider(): array
     {
-        $this->assertEquals([], A::firstKeys([]));
-        $this->assertEquals(false, A::firstKeys([false]));
-        $this->assertEquals([0, 1], A::firstKeys([1, 2, 3], 2));
-        $this->assertEquals(['a', 'b'], A::firstKeys(['a' => 1, 'b' => 2, 'c' => 3], 2));
+        return [
+            [[], []],
+            [false, [false],],
+            [[0, 1], [1, 2, 3], 2],
+            [['a', 'b'], ['a' => 1, 'b' => 2, 'c' => 3], 2],
+        ];
+    }
+
+    /**
+     * @dataProvider firstKeyDataProvider
+     */
+    public function testFirstKeys($expectedArray, $array, $count = 1): void
+    {
+        $this->assertEquals($expectedArray, A::firstKeys($array, $count));
     }
 
     public function testFirstKeysException(): void
@@ -408,19 +458,39 @@ class ATest extends TestCase
         $this->assertEquals('1,2,3', A::glue([1, 2, 3], ','));
     }
 
-    public function testChunk(): void
+    public function chunkDataProvider(): array
     {
-        $this->assertEquals([], A::chunk([], 2));
-        $this->assertEquals([[1, 2], [3]], A::chunk([1, 2, 3], 2));
-        $this->assertEquals([[1, 2], [3]], A::chunk(['a' => 1, 'b' => 2, 'c' => 3], 2));
-        $this->assertEquals([['a' => 1, 'b' => 2], ['c' => 3]], A::chunk(['a' => 1, 'b' => 2, 'c' => 3], 2, true));
+        return [
+            [[], [], 2],
+            [[[1, 2], [3]], [1, 2, 3], 2],
+            [[[1, 2], [3]], ['a' => 1, 'b' => 2, 'c' => 3], 2],
+            [[['a' => 1, 'b' => 2], ['c' => 3]], ['a' => 1, 'b' => 2, 'c' => 3], 2, true],
+        ];
     }
 
-    public function testFlip(): void
+    /**
+     * @dataProvider chunkDataProvider
+     */
+    public function testChunk($expectedArray, $array, $count, $preserveKeys = false): void
     {
-        $this->assertEquals([], A::flip([]));
-        $this->assertEquals([1 => 0, 2 => 1, 3 => 2], A::flip([1, 2, 3]));
-        $this->assertEquals([1 => 'a', 2 => 'b', 3 => 'c'], A::flip(['a' => 1, 'b' => 2, 'c' => 3]));
+        $this->assertEquals($expectedArray, A::chunk($array, $count, $preserveKeys));
+    }
+
+    public function flipDataProvider(): array
+    {
+        return [
+            [[], []],
+            [[1 => 0, 2 => 1, 3 => 2], [1, 2, 3]],
+            [[1 => 'a', 2 => 'b', 3 => 'c'], ['a' => 1, 'b' => 2, 'c' => 3]],
+        ];
+    }
+
+    /**
+     * @dataProvider flipDataProvider
+     */
+    public function testFlip($expectedArray, $array): void
+    {
+        $this->assertEquals($expectedArray, A::flip($array));
     }
 
     public function testFlipWarn(): void
@@ -527,13 +597,48 @@ class ATest extends TestCase
         A::intersectAssoc([]);
     }
 
-    public function testChangeKeyCase(): void
+    public function changeKeyCaseDataProvider(): array
     {
         $arr = ['a' => 1, 1 => 'B', 'C' => 3, 'D' => ['E' => 1, 'f' => 2]];
 
-        $this->assertEquals([], A::changeKeyCase([]));
-        $this->assertEquals(['a' => 1, 1 => 'B', 'c' => 3, 'd' => ['E' => 1, 'f' => 2]], A::changeKeyCase($arr, CASE_LOWER));
-        $this->assertEquals(['A' => 1, 1 => 'B', 'C' => 3, 'D' => ['E' => 1, 'f' => 2]], A::changeKeyCase($arr, CASE_UPPER));
-        $this->assertEquals(['a' => 1, 1 => 'B', 'c' => 3, 'd' => ['e' => 1, 'f' => 2]], A::changeKeyCase($arr, CASE_LOWER, true));
+        return [
+            [[], []],
+            [['a' => 1, 1 => 'B', 'c' => 3, 'd' => ['E' => 1, 'f' => 2]], $arr, CASE_LOWER],
+            [['A' => 1, 1 => 'B', 'C' => 3, 'D' => ['E' => 1, 'f' => 2]], $arr, CASE_UPPER],
+            [['a' => 1, 1 => 'B', 'c' => 3, 'd' => ['e' => 1, 'f' => 2]], $arr, CASE_LOWER, true],
+        ];
+    }
+
+    /**
+     * @dataProvider changeKeyCaseDataProvider
+     */
+    public function testChangeKeyCase(array $expectedArray, array $array, int $case = CASE_LOWER, bool $recursive = false): void
+    {
+        $this->assertEquals($expectedArray, A::changeKeyCase($array, $case, $recursive));
+    }
+
+    public function testSetDefaultSeparatorOnEmptySeparator(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Argument 1 passed to xobotyi\A::SetDefaultSeparator() must be a valuable string');
+        A::setDefaultSeparator('');
+    }
+
+    public function testSetDefaultSeparator(): void
+    {
+        A::setDefaultSeparator('\\');
+
+        $this->assertEquals('\\', A::getDefaultSeparator());
+    }
+
+    public function testSetSafeSeparationMode(): void
+    {
+        A::setSafeSeparationMode(true);
+
+        $this->assertTrue(A::isSafeSeparationMode());
+
+        A::setSafeSeparationMode(false);
+
+        $this->assertFalse(A::isSafeSeparationMode());
     }
 }
